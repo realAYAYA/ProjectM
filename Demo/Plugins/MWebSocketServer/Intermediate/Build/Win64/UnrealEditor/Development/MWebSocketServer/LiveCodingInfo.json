@@ -1,0 +1,15 @@
+{
+	"RemapUnityFiles": 
+	{
+		"Module.MWebSocketServer.cpp.obj": [
+			"MWebSocketClientSubsystem.gen.cpp.obj",
+			"MWebSocketServer.init.gen.cpp.obj",
+			"MWebSocketServerBPLibrary.gen.cpp.obj",
+			"MWebSocketServerSubsystem.gen.cpp.obj",
+			"MWebSocketClientSubsystem.cpp.obj",
+			"MWebSocketServerBPLibrary.cpp.obj",
+			"MWebSocketServerPrivate.cpp.obj",
+			"MWebSocketServerSubsystem.cpp.obj"
+		]
+	}
+}

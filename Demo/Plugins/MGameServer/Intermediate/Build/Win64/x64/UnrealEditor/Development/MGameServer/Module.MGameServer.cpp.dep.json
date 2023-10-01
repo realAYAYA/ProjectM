@@ -1,0 +1,28 @@
+{
+    "Version": "1.2",
+    "Data": {
+        "Source": "d:\\codes\\projectm\\demo\\plugins\\mgameserver\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\mgameserver\\module.mgameserver.cpp",
+        "ProvidedModule": "",
+        "PCH": "e:\\codes\\unrealengine53\\unrealengine\\engine\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\engine\\sharedpch.engine.cpp17.inclorderunreal5_1.h.pch",
+        "Includes": [
+            "d:\\codes\\projectm\\demo\\plugins\\mgameserver\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\mgameserver\\definitions.mgameserver.h",
+            "d:\\codes\\projectm\\demo\\plugins\\mgameserver\\intermediate\\build\\win64\\unrealeditor\\inc\\mgameserver\\uht\\mgameserver.init.gen.cpp",
+            "d:\\codes\\projectm\\demo\\plugins\\mgameserver\\intermediate\\build\\win64\\unrealeditor\\inc\\mgameserver\\uht\\mgameserverbplibrary.gen.cpp",
+            "d:\\codes\\projectm\\demo\\plugins\\mgameserver\\source\\mgameserver\\public\\mgameserverbplibrary.h",
+            "d:\\codes\\projectm\\demo\\plugins\\mgameserver\\intermediate\\build\\win64\\unrealeditor\\inc\\mgameserver\\uht\\mgameserverbplibrary.generated.h",
+            "d:\\codes\\projectm\\demo\\plugins\\mgameserver\\intermediate\\build\\win64\\unrealeditor\\inc\\mgameserver\\uht\\mgameserversubsystem.gen.cpp",
+            "d:\\codes\\projectm\\demo\\plugins\\mgameserver\\source\\mgameserver\\private\\mgameserversubsystem.h",
+            "e:\\codes\\unrealengine53\\unrealengine\\engine\\plugins\\experimental\\websocketnetworking\\source\\websocketnetworking\\public\\inetworkingwebsocket.h",
+            "e:\\codes\\unrealengine53\\unrealengine\\engine\\plugins\\experimental\\websocketnetworking\\source\\websocketnetworking\\public\\websocketnetworkingdelegates.h",
+            "e:\\codes\\unrealengine53\\unrealengine\\engine\\plugins\\experimental\\websocketnetworking\\source\\websocketnetworking\\public\\iwebsocketserver.h",
+            "d:\\codes\\projectm\\demo\\plugins\\mgameserver\\intermediate\\build\\win64\\unrealeditor\\inc\\mgameserver\\uht\\mgameserversubsystem.generated.h",
+            "d:\\codes\\projectm\\demo\\plugins\\mgameserver\\source\\mgameserver\\private\\mgameserverbplibrary.cpp",
+            "d:\\codes\\projectm\\demo\\plugins\\mgameserver\\source\\mgameserver\\private\\mgameserverprivate.h",
+            "d:\\codes\\projectm\\demo\\plugins\\mgameserver\\source\\mgameserver\\private\\mgameserverprivate.cpp",
+            "d:\\codes\\projectm\\demo\\plugins\\mgameserver\\source\\mgameserver\\private\\mgameserversubsystem.cpp",
+            "e:\\codes\\unrealengine53\\unrealengine\\engine\\plugins\\experimental\\websocketnetworking\\source\\websocketnetworking\\public\\iwebsocketnetworkingmodule.h"
+        ],
+        "ImportedModules": [],
+        "ImportedHeaderUnits": []
+    }
+}

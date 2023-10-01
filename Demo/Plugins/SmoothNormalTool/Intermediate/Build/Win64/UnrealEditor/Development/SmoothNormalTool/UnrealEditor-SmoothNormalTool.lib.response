@@ -1,0 +1,12 @@
+/NOLOGO
+/errorReport:prompt
+/MACHINE:x64
+/SUBSYSTEM:WINDOWS
+/DEF
+/NAME:"UnrealEditor-SmoothNormalTool.dll"
+/IGNORE:4221
+/NODEFAULTLIB
+"..\Intermediate\Build\Win64\UnrealEditor\Development\UnrealEd\SharedPCH.UnrealEd.ShadowErrors.h.obj"
+"D:\Codes\ProjectSS\Demo\Plugins\SmoothNormalTool\Intermediate\Build\Win64\UnrealEditor\Development\SmoothNormalTool\Module.SmoothNormalTool.cpp.obj"
+"..\Intermediate\Build\Win64\UnrealEditor\Development\Default.rc2.res"
+/OUT:"D:\Codes\ProjectSS\Demo\Plugins\SmoothNormalTool\Intermediate\Build\Win64\UnrealEditor\Development\SmoothNormalTool\UnrealEditor-SmoothNormalTool.lib"

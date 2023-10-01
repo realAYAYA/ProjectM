@@ -1,0 +1,7 @@
+{
+	"BuildId": "02f9e529-e37d-40b1-883f-97e1bc1163e1",
+	"Modules": 
+	{
+		"RedisClient": "UnrealEditor-RedisClient.dll"
+	}
+}

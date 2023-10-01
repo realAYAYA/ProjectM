@@ -1,0 +1,16 @@
+{
+	"SourceFiles": [
+		"D:\\Codes\\ProjectM\\Demo\\Source\\Demo\\Demo.Build.cs",
+		"D:\\Codes\\ProjectM\\Demo\\Plugins\\AdvancedSessions\\Source\\AdvancedSessions\\AdvancedSessions.Build.cs",
+		"D:\\Codes\\ProjectM\\Demo\\Plugins\\AdvancedSteamSessions\\Source\\AdvancedSteamSessions\\AdvancedSteamSessions.Build.cs",
+		"D:\\Codes\\ProjectM\\Demo\\Plugins\\GameTables\\Source\\GameTables\\GameTables.Build.cs",
+		"D:\\Codes\\ProjectM\\Demo\\Plugins\\MGameClient\\Source\\MGameClient\\MGameClient.Build.cs",
+		"D:\\Codes\\ProjectM\\Demo\\Plugins\\MGameServer\\Source\\MGameServer\\MGameServer.Build.cs",
+		"D:\\Codes\\ProjectM\\Demo\\Plugins\\MySQL\\Source\\MySQL\\MySQL.Build.cs",
+		"D:\\Codes\\ProjectM\\Demo\\Plugins\\RedisClient\\Source\\RedisClient\\RedisClient.Build.cs",
+		"D:\\Codes\\ProjectM\\Demo\\Plugins\\SmoothNormalTool\\Source\\SmoothNormalTool\\SmoothNormalTool.Build.cs",
+		"D:\\Codes\\ProjectM\\Demo\\Source\\Demo.Target.cs",
+		"D:\\Codes\\ProjectM\\Demo\\Source\\DemoEditor.Target.cs"
+	],
+	"EngineVersion": "5.3.1"
+}

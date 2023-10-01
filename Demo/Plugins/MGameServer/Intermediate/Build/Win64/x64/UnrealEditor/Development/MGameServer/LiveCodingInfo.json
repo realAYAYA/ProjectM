@@ -1,0 +1,13 @@
+{
+	"RemapUnityFiles": 
+	{
+		"Module.MGameServer.cpp.obj": [
+			"MGameServer.init.gen.cpp.obj",
+			"MGameServerBPLibrary.gen.cpp.obj",
+			"MGameServerSubsystem.gen.cpp.obj",
+			"MGameServerBPLibrary.cpp.obj",
+			"MGameServerPrivate.cpp.obj",
+			"MGameServerSubsystem.cpp.obj"
+		]
+	}
+}

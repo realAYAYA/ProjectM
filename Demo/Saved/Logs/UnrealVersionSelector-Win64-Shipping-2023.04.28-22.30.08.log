@@ -1,0 +1,22 @@
+Log started at 04/28/2023 22:30:09 (2023-04-28T14:30:09Z)
+Adding event matcher: CompileEventMatcher
+Adding event matcher: LinkEventMatcher
+Adding event matcher: MicrosoftEventMatcher
+Adding event matcher: XoreaxEventMatcher
+No config file at D:\Codes\UnrealEngine51\UnrealEngine\Engine\Restricted\NotForLicensees\Programs\UnrealBuildTool\BuildConfiguration.xml
+No config file at D:\Documents\Unreal Engine\UnrealBuildTool\BuildConfiguration.xml
+Configuration will be read from:
+  D:\Codes\UnrealEngine51\UnrealEngine\Engine\Saved\UnrealBuildTool\BuildConfiguration.xml
+  C:\Users\RobbingHandsFly\AppData\Roaming\Unreal Engine\UnrealBuildTool\BuildConfiguration.xml
+Log file: D:\Codes\ProjectSS\Demo\Saved\Logs\UnrealVersionSelector-Win64-Shipping-2023.04.28-22.30.08.log
+
+A conflicting instance of UnrealBuildTool is already running.
+BuildException: A conflicting instance of UnrealBuildTool is already running.
+   at UnrealBuildTool.SingleInstanceMutex..ctor(String MutexName, Boolean bWaitMutex) in D:\Codes\UnrealEngine51\UnrealEngine\Engine\Source\Programs\UnrealBuildTool\System\SingleInstanceMutex.cs:line 51
+   at UnrealBuildTool.UnrealBuildTool.Main(String[] ArgumentsArray) in D:\Codes\UnrealEngine51\UnrealEngine\Engine\Source\Programs\UnrealBuildTool\UnrealBuildTool.cs:line 619
+WriteFileIfChanged() wrote 0 changed files of 0 requested writes.
+Timeline:
+
+[ 0.000]
+[ 0.000](+0.163) <unknown>
+[ 0.163]

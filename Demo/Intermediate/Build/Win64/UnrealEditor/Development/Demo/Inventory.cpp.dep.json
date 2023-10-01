@@ -1,0 +1,18 @@
+{
+    "Version": "1.2",
+    "Data": {
+        "Source": "d:\\codes\\projectss\\demo\\source\\demo\\private\\inventory\\inventory.cpp",
+        "ProvidedModule": "",
+        "PCH": "e:\\codes\\unrealengine-toonlit\\unrealengine\\engine\\intermediate\\build\\win64\\unrealeditor\\development\\engine\\sharedpch.engine.shadowerrors.h.pch",
+        "Includes": [
+            "d:\\codes\\projectss\\demo\\intermediate\\build\\win64\\unrealeditor\\development\\demo\\definitions.demo.h",
+            "d:\\codes\\projectss\\demo\\source\\demo\\private\\inventory\\inventory.h",
+            "d:\\codes\\projectss\\demo\\source\\demo\\public\\mgametypes.h",
+            "d:\\codes\\projectss\\demo\\source\\demo\\public\\mgamedefine.h",
+            "d:\\codes\\projectss\\demo\\intermediate\\build\\win64\\unrealeditor\\inc\\demo\\uht\\mgametypes.generated.h",
+            "d:\\codes\\projectss\\demo\\intermediate\\build\\win64\\unrealeditor\\inc\\demo\\uht\\inventory.generated.h"
+        ],
+        "ImportedModules": [],
+        "ImportedHeaderUnits": []
+    }
+}

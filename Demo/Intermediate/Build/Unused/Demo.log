@@ -1,0 +1,34 @@
+﻿  Using bundled DotNet SDK version: 6.0.302
+  Running UnrealBuildTool: dotnet "..\..\Engine\Binaries\DotNET\UnrealBuildTool\UnrealBuildTool.dll" -Target="DemoEditor Win64 Development -Project=\"D:\codes\ProjectSS\Demo\Demo.uproject\"" -Target="ShaderCompileWorker Win64 Development -Quiet" -WaitMutex -FromMsBuild
+  Log file: D:\codes\UnrealEngine51\UnrealEngine\Engine\Programs\UnrealBuildTool\Log.txt
+  Using 'git status' to determine working set for adaptive non-unity build (D:\codes\ProjectSS).
+  Creating makefile for DemoEditor (no existing makefile)
+  Parsing headers for DemoEditor
+    Running Internal UnrealHeaderTool D:\codes\ProjectSS\Demo\Demo.uproject D:\codes\ProjectSS\Demo\Intermediate\Build\Win64\DemoEditor\Development\DemoEditor.uhtmanifest -WarningsAsErrors
+  Total of 12 written
+  Reflection code generated for DemoEditor in 1.573598 seconds
+  Creating makefile for ShaderCompileWorker (no existing makefile)
+  Building DemoEditor and ShaderCompileWorker...
+  Using Visual Studio 2019 14.29.30147 toolchain (C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133) and Windows 10.0.18362.0 SDK (C:\Program Files (x86)\Windows Kits\10).
+  Determining max actions to execute in parallel (6 physical cores, 12 logical cores)
+    Executing up to 6 processes, one per physical core
+  Building 15 actions with 6 processes...
+  [1/15] Compile Demo.cpp
+  [2/15] Compile DemoProjectile.gen.cpp
+  [3/15] Compile DemoCharacter.gen.cpp
+  [4/15] Compile TP_PickUpComponent.gen.cpp
+  [5/15] Compile DemoProjectile.cpp
+  [6/15] Compile Demo.init.gen.cpp
+  [7/15] Compile DemoGameMode.gen.cpp
+  [8/15] Compile DemoGameMode.cpp
+  [9/15] Compile TP_WeaponComponent.gen.cpp
+  [10/15] Compile TP_PickUpComponent.cpp
+  [11/15] Compile DemoCharacter.cpp
+  [12/15] Compile TP_WeaponComponent.cpp
+  [13/15] Link UnrealEditor-Demo.lib
+    正在创建库 D:\codes\ProjectSS\Demo\Intermediate\Build\Win64\UnrealEditor\Development\Demo\UnrealEditor-Demo.lib 和对象 D:\codes\ProjectSS\Demo\Intermediate\Build\Win64\UnrealEditor\Development\Demo\UnrealEditor-Demo.exp
+  [14/15] Link UnrealEditor-Demo.dll
+    正在创建库 D:\codes\ProjectSS\Demo\Intermediate\Build\Win64\UnrealEditor\Development\Demo\UnrealEditor-Demo.suppressed.lib 和对象 D:\codes\ProjectSS\Demo\Intermediate\Build\Win64\UnrealEditor\Development\Demo\UnrealEditor-Demo.suppressed.exp
+  [15/15] WriteMetadata DemoEditor.target
+  Total time in Parallel executor: 11.84 seconds
+  Total execution time: 18.24 seconds

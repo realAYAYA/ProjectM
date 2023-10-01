@@ -1,0 +1,12 @@
+{
+	"RemapUnityFiles": 
+	{
+		"Module.GameTables.cpp.obj": [
+			"GameTables.gen.cpp.obj",
+			"GameTables.init.gen.cpp.obj",
+			"ConfigLoadHelper.cpp.obj",
+			"GameTables.cpp.obj",
+			"GameTablesModule.cpp.obj"
+		]
+	}
+}
