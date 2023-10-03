@@ -8,6 +8,8 @@
 
 #include "MGameTypes.generated.h"
 
+class UGameplayAbility;
+class UGameplayEffect;
 DECLARE_DYNAMIC_DELEGATE_OneParam(FOnRpcResult, const ERpcErrorCode, bOk);
 
 /** 玩家离线后，游戏中角色身上Buff快照数据 */
@@ -196,8 +198,14 @@ struct FCharacterData
 	GENERATED_USTRUCT_BODY()
 
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = GAS)
-	TArray<TSubclassOf<class UGameplayEffect>> Effects;
+	TArray<TSubclassOf<UGameplayEffect>> Effects;
 
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = GAS)
-	TArray<TSubclassOf<class UGameplayAbility>> Abilities;
+	TArray<TSubclassOf<UGameplayAbility>> DefaultAbilities;
+	
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = GAS)
+	TArray<TSubclassOf<UGameplayAbility>> WarriorAbilities;
+
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = GAS)
+	TArray<TSubclassOf<UGameplayAbility>> MageAbilities;
 };

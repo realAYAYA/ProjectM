@@ -20,6 +20,7 @@
 #include "MCharacterDataAsset.h"
 #include "MPlayerController.h"
 #include "MPlayerState.h"
+#include "Kismet/KismetSystemLibrary.h"
 
 
 // Sets default values
@@ -70,6 +71,26 @@ const UMAttributeSet* AMCharacter::GetAttributeSet() const
 	return AttributeSet;
 }
 
+void AMCharacter::SetRoleName(const FString& InName)
+{
+	RoleName = FName(*InName);
+	
+	if (UKismetSystemLibrary::IsServer(this))
+	{
+		OnRoleNameChanged.Broadcast(RoleName);// 如果本机是服务器，OnRep不会调用，则手动触发
+	}
+}
+
+void AMCharacter::SetRoleCamp(const ECamp& InCamp)
+{
+	Camp = InCamp;
+
+	if (UKismetSystemLibrary::IsServer(this))
+	{
+		OnRoleCampChanged.Broadcast(InCamp);// 如果本机是服务器，OnRep不会调用，则手动触发
+	}
+}
+
 void AMCharacter::OnRep_RoleName() const
 {
 	OnRoleNameChanged.Broadcast(RoleName);
@@ -116,22 +137,32 @@ void AMCharacter::GiveAbilities()
 {
 	if (!HasAuthority() || !AbilitySystemComponent)
 		return;
-
-	int32 i = 0;
-	for (const auto& DefaultAbility : CharacterData.Abilities)
+	
+	for (const auto& AbilityClass : CharacterData.DefaultAbilities)
 	{
-		if (!DefaultAbility)
+		if (!AbilityClass)
 			continue;
 			
-		FGameplayAbilitySpec GameplayAbilitySpec = FGameplayAbilitySpec(DefaultAbility);
+		FGameplayAbilitySpec GameplayAbilitySpec = FGameplayAbilitySpec(AbilityClass);
 		AbilitySystemComponent->GiveAbility(GameplayAbilitySpec);
+	}
 
-		const UGameplayAbility* Ability = NewObject<UGameplayAbility>(this, DefaultAbility);
-		if (Ability && Ability->AbilityTags.Num() > 0 && Ability->AbilityTags.IsValidIndex(0))
-		{
-			const FGameplayTag& Tag = Ability->AbilityTags.First();
-			InputSkillMap.Add(++i, Tag);
-		}
+	TArray<TSubclassOf<UGameplayAbility>>* Abilities = &CharacterData.WarriorAbilities;
+	
+	switch (RoleClass)
+	{
+		default: return;
+	case ERoleClass::Warrior: Abilities = &CharacterData.WarriorAbilities;break;
+	case ERoleClass::Mage: Abilities = &CharacterData.MageAbilities;break;
+	}
+	
+	for (const auto& AbilityClass : *Abilities)
+	{
+		if (!AbilityClass)
+			continue;
+			
+		FGameplayAbilitySpec GameplayAbilitySpec = FGameplayAbilitySpec(AbilityClass);
+		AbilitySystemComponent->GiveAbility(GameplayAbilitySpec);
 	}
 }
 
@@ -247,6 +278,16 @@ void AMCharacter::MoveEnd(const FInputActionValue& Value)
 
 void AMCharacter::Look(const FInputActionValue& Value)
 {
+	// 检测是否可以移动
+	FGameplayTagContainer Container;
+	Container.AddTag(FGameplayTag::RequestGameplayTag(FName("GAS.State.Limited.Stun")));
+
+	for (const FGameplayTag& Tag :Container)
+	{
+		if (GetAbilitySystemComponent()->HasMatchingGameplayTag(Tag))
+			return;
+	}
+	
 	// input is a Vector2D
 	const FVector2D LookAxisVector = Value.Get<FVector2D>();
 
@@ -260,6 +301,17 @@ void AMCharacter::Look(const FInputActionValue& Value)
 
 void AMCharacter::TryJump(const FInputActionValue& Value)
 {
+	// 检测是否可以移动
+	FGameplayTagContainer Container;
+	Container.AddTag(FGameplayTag::RequestGameplayTag(FName("GAS.State.Limited.Root")));
+	Container.AddTag(FGameplayTag::RequestGameplayTag(FName("GAS.State.Limited.Stun")));
+
+	for (const FGameplayTag& Tag :Container)
+	{
+		if (GetAbilitySystemComponent()->HasMatchingGameplayTag(Tag))
+			return;
+	}
+	
 	AbilitySystemComponent->Jump();
 }
 
@@ -297,7 +349,6 @@ void AMCharacter::GetLifetimeReplicatedProps(TArray< FLifetimeProperty >& OutLif
 	SharedParams.RepNotifyCondition = REPNOTIFY_OnChanged;
 	DOREPLIFETIME_WITH_PARAMS_FAST(AMCharacter, CurrentTarget, SharedParams);
 	
-	SharedParams.Condition = COND_InitialOnly;
 	DOREPLIFETIME_WITH_PARAMS_FAST(AMCharacter, RoleName, SharedParams);
 	DOREPLIFETIME_WITH_PARAMS_FAST(AMCharacter, Camp, SharedParams);
 }

@@ -43,7 +43,7 @@ public:
 	// Todo 聊天模块 - 服务器微服务
 	// Todo 拍卖行 - 服务器微服务
 	
-	const FRoleData& GetUserData() const { return RoleData; }
+	const FRoleData& GetRoleData() const { return RoleData; }
 
 	void SetRoleData(const FRoleData& InData) { RoleData = InData; }
 	

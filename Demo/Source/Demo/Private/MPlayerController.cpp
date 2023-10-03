@@ -134,6 +134,16 @@ void AMPlayerController::LoginReq_Implementation(const FString& UserID, const FS
 	PS->UserName = UserName;
 	PS->SetRoleData(RoleData);
 
+	// 数据载入成功后，尝试设置玩家数据
+	if (AMCharacter* MCharacter = Cast<AMCharacter>(GetCharacter()))
+	{
+		// Todo 进行其他数据同步，例如外观
+		MCharacter->SetRoleName(PS->GetRoleData().RoleName);
+		MCharacter->SetRoleCamp(PS->GetRoleData().Camp);
+		MCharacter->RoleClass = PS->GetRoleData().Class;
+		MCharacter->GiveAbilities();
+	}
+
 	LoginAck(ELoginCode::Ok);
 
 	UE_LOG(LogProjectM, Log, TEXT("Server: User: %s enter the game"), *UserName);

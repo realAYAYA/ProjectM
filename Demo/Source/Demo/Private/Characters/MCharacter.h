@@ -26,7 +26,7 @@ class UMAttributeSet;
 class UGameplayAbility;
 class UGameplayEffect;
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnRoleNameChanged, FString, NewName);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnRoleNameChanged, FName, NewName);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnRoleCampChanged, ECamp, NewCamp);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnRoleRaceChanged, ERace, NewRace);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnCurrentChanged, AMCharacter*, Target);
@@ -85,13 +85,16 @@ protected:
 public:
 	
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_RoleName, Category = "ProjectM")
-	FString RoleName;
+	FName RoleName;
 
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_RoleCamp, Category = "ProjectM")
 	ECamp Camp;
 
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_RoleRace, Category = "ProjectM")
 	ERace Race;
+
+	UPROPERTY(BlueprintReadOnly, Replicated, Category = "ProjectM")
+	ERoleClass RoleClass;
 
 	/** 当前锁定目标*/
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_CurrentTarget, Category = "ProjectM")
@@ -112,8 +115,14 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "ProjectM")
 	FOnCurrentChanged OnCurrentChanged;
 
-protected:
+	UFUNCTION()
+	void SetRoleName(const FString& InName);
 
+	UFUNCTION()
+	void SetRoleCamp(const ECamp& InCamp);
+	
+protected:
+	
 	UFUNCTION()
 	void OnRep_RoleName() const;
 
@@ -172,6 +181,10 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "ProjectM")
 	FOnMaxEnergyChanged OnMaxEnergyChanged;
 
+	// 初始化技能系统，职业|天赋|种族|出身|
+	UFUNCTION()
+	void GiveAbilities();
+	
 protected:
 
 	UPROPERTY(Replicated)
@@ -179,8 +192,6 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly)
 	class UMCharacterDataAsset* CharacterDataAsset;
-
-	void GiveAbilities();
 	
 	void ApplyStartupEffects();
 
