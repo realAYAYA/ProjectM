@@ -26,12 +26,10 @@ class UMAttributeSet;
 class UGameplayAbility;
 class UGameplayEffect;
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnRoleNameChanged, FString, InName);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnRoleNameChanged, FString, NewName);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnRoleCampChanged, ECamp, NewCamp);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnRoleRaceChanged, ERace, NewRace);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnCurrentChanged, AMCharacter*, Target);
-
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnMoveInput, float, X, float, Y);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnLookInput, float, X, float, Y);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnJumpInput, float, V);
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnHealthChanged, float, V);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnMaxHealthChanged, float, V);
@@ -64,12 +62,6 @@ public:
 	
 	// Sets default values for this character's properties
 	AMCharacter(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
-
-	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "ProjectM")
-	AMPlayerState* GetMPlayerState() const;
-
-	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "ProjectM")
-	AMPlayerController* GetMPlayerController() const;
 	
 	virtual void PossessedBy(AController* NewController) override;
 	
@@ -95,8 +87,11 @@ public:
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_RoleName, Category = "ProjectM")
 	FString RoleName;
 
-	UPROPERTY(BlueprintAssignable, Category = "ProjectM")
-	FOnRoleNameChanged OnRoleNameChanged;
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_RoleCamp, Category = "ProjectM")
+	ECamp Camp;
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_RoleRace, Category = "ProjectM")
+	ERace Race;
 
 	/** 当前锁定目标*/
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_CurrentTarget, Category = "ProjectM")
@@ -104,6 +99,15 @@ public:
 
 	UFUNCTION(BlueprintCallable, Server, Reliable, Category = "ProjectM")
 	void SetCurrentTarget(AMCharacter* NewTarget);
+	
+	UPROPERTY(BlueprintAssignable, Category = "ProjectM")
+	FOnRoleNameChanged OnRoleNameChanged;
+	
+	UPROPERTY(BlueprintAssignable, Category = "ProjectM")
+	FOnRoleCampChanged OnRoleCampChanged;
+
+	UPROPERTY(BlueprintAssignable, Category = "ProjectM")
+	FOnRoleRaceChanged OnRoleRaceChanged;
 
 	UPROPERTY(BlueprintAssignable, Category = "ProjectM")
 	FOnCurrentChanged OnCurrentChanged;
@@ -112,6 +116,12 @@ protected:
 
 	UFUNCTION()
 	void OnRep_RoleName() const;
+
+	UFUNCTION()
+	void OnRep_RoleCamp() const;
+
+	UFUNCTION()
+	void OnRep_RoleRace() const;
 
 	UFUNCTION()
 	void OnRep_CurrentTarget() const;
@@ -174,11 +184,7 @@ protected:
 	
 	void ApplyStartupEffects();
 
-	// 移动限制Tags
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "ProjectM")
-	FGameplayTagContainer MoveLimitTags;
-
-	FDelegateHandle MaxMovementSpeedChangedDelegatedHandle;
+	//FDelegateHandle MaxMovementSpeedChangedDelegatedHandle;
 	void OnMaxMovementSpeedChanged(const FOnAttributeChangeData& Data);
 
 private:
@@ -226,15 +232,6 @@ public:
 	/** Sprint Input Action */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* InputAction4;
-
-	UPROPERTY(BlueprintAssignable)
-	FOnMoveInput OnMoveInput;
-
-	UPROPERTY(BlueprintAssignable)
-	FOnLookInput OnLookInput;
-
-	UPROPERTY(BlueprintAssignable)
-	FOnJumpInput OnJumpInput;
 
 protected:
 

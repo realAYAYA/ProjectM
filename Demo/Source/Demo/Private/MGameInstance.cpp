@@ -18,23 +18,13 @@ void UMGameInstance::Init()
 
 	GetMGameTables();
 	
-	if (!UGameplayStatics::DoesSaveGameExist(TEXT("MSaveGame"), 0))
-	{
-		SaveGame = NewObject<UMSaveGame>(this);
-	}
-	else
-	{
-		SaveGame = Cast<UMSaveGame>(UGameplayStatics::LoadGameFromSlot(TEXT("MSaveGame"), 0));
-		if (!SaveGame)
-			SaveGame = NewObject<UMSaveGame>(this);
-	}
 }
 
 void UMGameInstance::BeginDestroy()
 {
 	if (SaveGame)
 	{
-		if (!UGameplayStatics::SaveGameToSlot(SaveGame, TEXT("MSaveGame"), 0))
+		if (!UGameplayStatics::SaveGameToSlot(SaveGame, UserID, 0))
 		{
 			UE_LOG(LogProjectM, Error, TEXT("SaveGame Failed."));
 		}
@@ -53,6 +43,22 @@ void UMGameInstance::SetLoginInfo(const FString& InUserID, const FString& InUser
 	// Todo 从Steam获取信息
 	UserID = InUserID;
 	UserName = InUserName;
+
+	if (!UGameplayStatics::DoesSaveGameExist(UserID, 0))
+	{
+		SaveGame = NewObject<UMSaveGame>(this);
+	}
+	else
+	{
+		SaveGame = Cast<UMSaveGame>(UGameplayStatics::LoadGameFromSlot(UserID, 0));
+		if (!SaveGame)
+			SaveGame = NewObject<UMSaveGame>(this);
+	}
+
+	if (const FRoleData* Data = SaveGame->GetRoleDataRef(UserID, SaveGame->LastPlayRole))
+	{
+		SelectedRoleData = *Data;
+	}
 }
 
 UMGameTables* UMGameInstance::GetMGameTables()

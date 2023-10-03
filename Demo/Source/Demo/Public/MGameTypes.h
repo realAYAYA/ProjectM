@@ -163,9 +163,9 @@ struct FCreateRoleParams
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ProjectM")
 	FString RoleName;
 
-	// 性别
+	// 种族
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ProjectM")
-	EGender Gender = EGender::None;
+	ECamp Camp = ECamp::None;
 
 	// 种族
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ProjectM")
@@ -184,6 +184,9 @@ struct FCreateRoleParams
 	ERoleClass Class = ERoleClass::None;
 
 	// Todo 外观数据
+	// 性别
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ProjectM")
+	EGender Gender = EGender::None;
 };
 
 // Todo Delete

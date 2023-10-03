@@ -75,6 +75,16 @@ void AMCharacter::OnRep_RoleName() const
 	OnRoleNameChanged.Broadcast(RoleName);
 }
 
+void AMCharacter::OnRep_RoleCamp() const
+{
+	OnRoleCampChanged.Broadcast(Camp);
+}
+
+void AMCharacter::OnRep_RoleRace() const
+{
+	OnRoleRaceChanged.Broadcast(Race);
+}
+
 void AMCharacter::OnRep_CurrentTarget() const
 {
 	OnCurrentChanged.Broadcast(CurrentTarget);
@@ -204,11 +214,16 @@ void AMCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 void AMCharacter::Move(const FInputActionValue& Value)
 {
 	// 检测是否可以移动
-	for (const FGameplayTag& Tag : MoveLimitTags)
+	FGameplayTagContainer Container;
+	Container.AddTag(FGameplayTag::RequestGameplayTag(FName("GAS.State.Limited.Root")));
+	Container.AddTag(FGameplayTag::RequestGameplayTag(FName("GAS.State.Limited.Stun")));
+
+	for (const FGameplayTag& Tag :Container)
 	{
 		if (GetAbilitySystemComponent()->HasMatchingGameplayTag(Tag))
 			return;
 	}
+	
 	// input is a Vector2D
 	const FVector2D MovementVector = Value.Get<FVector2D>();
 
@@ -217,12 +232,8 @@ void AMCharacter::Move(const FInputActionValue& Value)
 		// add movement
 		AddMovementInput(GetActorForwardVector(), MovementVector.Y);
 		AddMovementInput(GetActorRightVector(), MovementVector.X);
-
-		//AbilitySystemComponent->MovementInputX = MovementVector.X;
-		//AbilitySystemComponent->MovementInputY = MovementVector.Y;
+		
 		AbilitySystemComponent->Move();
-
-		OnMoveInput.Broadcast(MovementVector.X, MovementVector.Y);
 	}
 }
 
@@ -230,10 +241,7 @@ void AMCharacter::MoveEnd(const FInputActionValue& Value)
 {
 	if (Controller != nullptr)
 	{
-		// add movement
 		AbilitySystemComponent->MoveEnd();
-		
-		OnMoveInput.Broadcast(0, 0);
 	}
 }
 
@@ -247,19 +255,12 @@ void AMCharacter::Look(const FInputActionValue& Value)
 		// add yaw and pitch input to controller
 		AddControllerYawInput(LookAxisVector.X);
 		AddControllerPitchInput(LookAxisVector.Y);
-
-		//AbilitySystemComponent->LookInputYaw = LookAxisVector.X;
-		//AbilitySystemComponent->LookInputPitch = LookAxisVector.Y;
-
-		OnLookInput.Broadcast(LookAxisVector.X, LookAxisVector.Y);
 	}
 }
 
 void AMCharacter::TryJump(const FInputActionValue& Value)
 {
 	AbilitySystemComponent->Jump();
-
-	OnJumpInput.Broadcast(Value.Get<float>());
 }
 
 void AMCharacter::Landed(const FHitResult& Hit)
@@ -267,8 +268,6 @@ void AMCharacter::Landed(const FHitResult& Hit)
 	Super::Landed(Hit);
 	
 	AbilitySystemComponent->JumpEnd();
-	
-	OnJumpInput.Broadcast(0.0f);
 }
 
 void AMCharacter::TryActiveAbility(const FInputActionValue& Value)
@@ -279,16 +278,6 @@ void AMCharacter::TryActiveAbility(const FInputActionValue& Value)
 void AMCharacter::OnMaxMovementSpeedChanged(const FOnAttributeChangeData& Data)
 {
 	GetCharacterMovement()->MaxWalkSpeed = Data.NewValue;
-}
-
-AMPlayerState* AMCharacter::GetMPlayerState() const
-{
-	return Cast<AMPlayerState>(GetPlayerState());
-}
-
-AMPlayerController* AMCharacter::GetMPlayerController() const
-{
-	return Cast<AMPlayerController>(Controller);
 }
 
 void AMCharacter::SetCurrentTarget_Implementation(AMCharacter* NewTarget)
@@ -304,8 +293,11 @@ void AMCharacter::GetLifetimeReplicatedProps(TArray< FLifetimeProperty >& OutLif
 
 	FDoRepLifetimeParams SharedParams;
 	SharedParams.bIsPushBased = true;
-	SharedParams.RepNotifyCondition = REPNOTIFY_Always;
 	
-	DOREPLIFETIME_WITH_PARAMS_FAST(AMCharacter, RoleName, SharedParams);
+	SharedParams.RepNotifyCondition = REPNOTIFY_OnChanged;
 	DOREPLIFETIME_WITH_PARAMS_FAST(AMCharacter, CurrentTarget, SharedParams);
+	
+	SharedParams.Condition = COND_InitialOnly;
+	DOREPLIFETIME_WITH_PARAMS_FAST(AMCharacter, RoleName, SharedParams);
+	DOREPLIFETIME_WITH_PARAMS_FAST(AMCharacter, Camp, SharedParams);
 }

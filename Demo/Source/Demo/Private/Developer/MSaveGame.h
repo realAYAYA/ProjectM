@@ -28,20 +28,23 @@ public:
 	 */
 	
 	UFUNCTION(BlueprintCallable, Category = "ProjectM")
-	bool CreateUser(const FString& InID, const FString& InName);
-
-	bool CreateUser(const FMUserData& InData);
+	int32 CreateUser(const FString& InID, const FString& InName);
 
 	UFUNCTION(BlueprintCallable, Category = "ProjectM")
 	void RemoveUser(const FString& InID);
 
 	UFUNCTION(BlueprintCallable, Category = "ProjectM")
-	FMUserData FindUserData(const FString& InID);
+	bool FindUserData(const FString& InID, FMUserData& Result);
 	
-	FMUserData* FindUserDataRef(const FString& InID);
+	FMUserData* GetUserDataRef(const FString& InID);
 
 	UFUNCTION(BlueprintCallable, Category = "ProjectM")
-	FRoleData GetRoleData(const FString& InID, const FString& InName);
+	bool FindRoleData(const FString& InID, const FString& InName, FRoleData& Result);
+
+	FRoleData* GetRoleDataRef(const FString& InID, const FString& InName);
+
+	UFUNCTION(BlueprintCallable, Category = "ProjectM")
+	int32 GetRoleNum(const FString& InID);
 
 	UFUNCTION(BlueprintCallable, Category = "ProjectM")
 	bool UpdateRoleName(const FString& InID, const FString& OldName, const FString& NewName);
@@ -55,6 +58,16 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "ProjectM")
 	void RemoveRole(const FString& InID, const FString& InName);
 
+	UFUNCTION(BlueprintCallable, Category = "ProjectM")
+	TArray<FRoleData> GetAllRole(const FString& InID);
+
+	// 记录上次游玩角色的名称
+	UPROPERTY()
+	FString LastPlayRole;
+
+protected:
+
+	virtual void PostLoad() override;
 	
 private:
 	
@@ -69,5 +82,12 @@ private:
 	// Todo 游戏进度
 	
 	// Todo 成就，收集
-
 };
+
+inline TArray<FRoleData> UMSaveGame::GetAllRole(const FString& InID)
+{
+	if (const FMUserData* Data = GetUserDataRef(InID))
+		return Data->RoleData;
+
+	return TArray<FRoleData>();
+}

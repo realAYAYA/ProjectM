@@ -20,7 +20,11 @@ class DEMO_API UMGameInstance : public UGameInstance
 	GENERATED_BODY()
 
 public:
-
+	/**
+	 * 在最终发布版中这些参数会自动填充，早期方便测试进行手动填写
+	 * @param InUserID Steam ID
+	 * @param InUserName Steam 用户名
+	 */
 	UFUNCTION(BlueprintCallable, Category = "ProjectM")
 	void SetLoginInfo(const FString& InUserID, const FString& InUserName);
 
@@ -31,6 +35,7 @@ public:
 	// Steam, Epic, PS4 : USerName
 	UPROPERTY()
 	FString UserName;
+	
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "ProjectM")
 	UMSaveGame* SaveGame;
@@ -43,6 +48,9 @@ public:
 	virtual void BeginDestroy() override;
 
 	static UMGameInstance* GetMGameInstance(const UWorld* World);
+
+	UPROPERTY(BlueprintReadOnly, Transient, Category = "ProjectM")
+	FRoleData SelectedRoleData;
 	
 private:
 	

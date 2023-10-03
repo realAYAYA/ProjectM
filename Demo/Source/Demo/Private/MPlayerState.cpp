@@ -12,9 +12,9 @@ AMPlayerState::AMPlayerState(const FObjectInitializer& ObjectInitializer)
 	InventoryModule = NewObject<UInventory>();
 }
 
-int32 AMPlayerState::GetRoleNum() const
+bool AMPlayerState::IsOnline() const
 {
-	return UserData.RoleData.Num();
+	return !UserID.IsEmpty();
 }
 
 void AMPlayerState::CopyProperties(APlayerState* PlayerState)

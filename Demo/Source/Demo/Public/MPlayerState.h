@@ -30,10 +30,7 @@ public:
 	FString UserName;
 
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "ProjectM")
-	bool IsOnline() const { return !UserID.IsEmpty(); }
-	
-	UFUNCTION(BlueprintCallable, Category = "ProjectM")
-	int32 GetRoleNum() const;
+	bool IsOnline() const;
 	
 	UPROPERTY(BlueprintReadOnly, Category = "ProjectM")
 	class UInventory* InventoryModule;// Todo 背包模块
@@ -46,9 +43,9 @@ public:
 	// Todo 聊天模块 - 服务器微服务
 	// Todo 拍卖行 - 服务器微服务
 	
-	const FMUserData& GetUserData() const { return UserData; }
+	const FRoleData& GetUserData() const { return RoleData; }
 
-	void SetUserData(const FMUserData& InData) { UserData = InData; }
+	void SetRoleData(const FRoleData& InData) { RoleData = InData; }
 	
 protected:
 
@@ -59,5 +56,5 @@ protected:
 private:
 
 	UPROPERTY()
-	FMUserData UserData;
+	FRoleData RoleData;
 };

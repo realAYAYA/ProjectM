@@ -56,149 +56,97 @@ void AMPlayerController::OnRep_PlayerState()
 
 void AMPlayerController::K2_Login()
 {
-	Login([this](const ELoginCode Code)
-	{
-		OnFinishedLogin.Broadcast(Code);
-	});
+	Login();
 }
 
-void AMPlayerController::K2_CreateRole(const FCreateRoleParams& InParam, const FOnRpcResult& InCallback)
+void AMPlayerController::K2_Spawn()
 {
-	const AMPlayerState* PS = GetMPlayerState();
-	if (PS && PS->IsOnline())
-	{
-		RpcManager.Add(TEXT("CreateRole"), InCallback);
-		CreateRoleReq(PS->UserID, InParam);
-	}
+	//SpawnActor
 }
 
-void AMPlayerController::K2_ChooseRole(const FString& InName, const FOnRpcResult& InCallback)
+bool AMPlayerController::K2_CreateRole(const FCreateRoleParams& InParam)
 {
-	const AMPlayerState* PS = GetMPlayerState();
-	if (PS && PS->IsOnline())
-	{
-		RpcManager.Add(TEXT("ChooseRole"), InCallback);
-		ChooseRoleReq(PS->UserID, InName);
-	}
-}
-
-void AMPlayerController::Login(const FOnLoginResult& InCallback)
-{
-	OnLoginCallback = InCallback;
-	
-	if (const UMGameInstance* GameInstance = Cast<UMGameInstance>(GetGameInstance()))
-	{
-		LoginReq(GameInstance->UserID, GameInstance->UserName);
-	}
-}
-
-void AMPlayerController::LoginReq_Implementation(const FString& InID, const FString& Name)
-{
-	// 玩家在线
-	if (const AMGameMode* GameMode = Cast<AMGameMode>(GetWorld()->GetAuthGameMode()))
-	{
-		if (GameMode->FindOnlinePlayerByID(InID))
-		{
-			LoginAck(ELoginCode::DuplicateLogin, FMUserData());
-			return;
-		}
-	}
-
-	// GetData from SaveGame
-	// 如果没有用户就为其注册一个，并返回数据
-	const UMGameInstance* GameInstance = Cast<UMGameInstance>(GetGameInstance());
-	AMPlayerState* PS = GetMPlayerState();
-	if (GameInstance && GameInstance->SaveGame && PS)
-	{
-		UMSaveGame* SaveGame = GameInstance->SaveGame;
-		if (const FMUserData* FoundData = SaveGame->FindUserDataRef(InID))
-		{
-			PS->SetUserData(*FoundData);
-			LoginAck(ELoginCode::Ok, *FoundData);
-		}
-		else
-		{
-			// Create User
-			FMUserData NewData;
-			NewData.UserID = InID;
-			NewData.UserName = Name;
-			NewData.CreateDate = FDateTime::Now().GetTicks();
-			
-			if (SaveGame->CreateUser(NewData))
-			{
-				PS->SetUserData(NewData);
-				LoginAck(ELoginCode::Ok, NewData);
-			}
-			else
-			{
-				LoginAck(ELoginCode::Unknown, FMUserData());
-			}
-		}
-	}
-
-	// Todo 为角色改名，以后会删掉
-	if (AMCharacter* MCharacter = Cast<AMCharacter>(GetPawn()))
-	{
-		MCharacter->RoleName = InID;
-	}
-
-	UE_LOG(LogProjectM, Log, TEXT("Server: User: %s enter the game"), *Name);
-}
-
-void AMPlayerController::LoginAck_Implementation(const ELoginCode Code, const FMUserData& InData)
-{
-	AMPlayerState* PS = GetMPlayerState();
-	if (PS && Code == ELoginCode::Ok)
-	{
-		PS->SetUserData(InData);
-	}
-	
-	OnLoginCallback(Code);
-}
-
-void AMPlayerController::CreateRoleReq_Implementation(const FString& InID, const FCreateRoleParams& InParam)
-{
-	// Todo 创建角色存档
-	const UMGameInstance* GameInstance = Cast<UMGameInstance>(GetGameInstance());
+	UMGameInstance* GameInstance = Cast<UMGameInstance>(GetGameInstance());
 	if (GameInstance && GameInstance->SaveGame)
 	{
 		UMSaveGame* SaveGame = GameInstance->SaveGame;
-		if (SaveGame->CreateRole(InID, InParam))
-			CreateRoleAck(SaveGame->GetRoleData(InID, InParam.RoleName));// 返回玩家存档
-		else
+		if (SaveGame->CreateRole(GameInstance->UserID, InParam))
 		{
-			CreateRoleAck(FRoleData());
-		}
+			const FRoleData* Data = SaveGame->GetRoleDataRef(GameInstance->UserID, InParam.RoleName);
+			
+			GameInstance->SelectedRoleData = *Data;
+			SaveGame->LastPlayRole = InParam.RoleName;
 
+			return true;
+		}
+	}
+
+	return false;
+}
+
+void AMPlayerController::K2_ChooseRole(const FString& InName)
+{
+	UMGameInstance* GameInstance = Cast<UMGameInstance>(GetGameInstance());
+	if (!GameInstance)
+		return;
+	
+	UMSaveGame* SaveGame = GameInstance->SaveGame;
+
+	// 如果名字没输入就默认上次游玩
+	if (InName.IsEmpty())
+	{
+		if (const FRoleData* Data = SaveGame->GetRoleDataRef(K2_GetUserID(), SaveGame->LastPlayRole))
+		{
+			GameInstance->SelectedRoleData = *Data;
+			SaveGame->LastPlayRole = Data->RoleName;
+		}
+		
+		return;
+	}
+	
+	if (const FRoleData* Data = SaveGame->GetRoleDataRef(K2_GetUserID(), InName))
+	{
+		GameInstance->SelectedRoleData = *Data;
+		SaveGame->LastPlayRole = InName;
+	}
+}
+
+void AMPlayerController::Login()
+{
+	if (const UMGameInstance* GameInstance = Cast<UMGameInstance>(GetGameInstance()))
+	{
+		LoginReq(GameInstance->UserID, GameInstance->UserName, GameInstance->SelectedRoleData);
+	}
+}
+
+void AMPlayerController::LoginReq_Implementation(const FString& UserID, const FString& UserName, const FRoleData& RoleData)
+{
+	AMPlayerState* PS = GetMPlayerState();
+	
+	// 玩家在线
+	if (PS->IsOnline())
+	{
+		LoginAck(ELoginCode::DuplicateLogin);
 		return;
 	}
 
-	CreateRoleAck(FRoleData());
+	PS->UserID = UserID;
+	PS->UserName = UserName;
+	PS->SetRoleData(RoleData);
+
+	LoginAck(ELoginCode::Ok);
+
+	UE_LOG(LogProjectM, Log, TEXT("Server: User: %s enter the game"), *UserName);
 }
 
-void AMPlayerController::CreateRoleAck_Implementation(const FRoleData& InData)
+void AMPlayerController::LoginAck_Implementation(const ELoginCode Code)
 {
-	if (const FOnRpcResult* Callback = RpcManager.Find(TEXT("CreateRole")))
+	const UMGameInstance* GameInstance = Cast<UMGameInstance>(GetGameInstance());
+	AMPlayerState* PS = GetMPlayerState();
+	if (GameInstance && PS)
 	{
-		const bool bOk = InData.CreateDate != 0;
-		if (bOk)
-		{
-			// Todo AddToData
-		}
-		
-		Callback->ExecuteIfBound(ERpcErrorCode::Ok);
+		PS->SetRoleData(GameInstance->SelectedRoleData);
 	}
-}
-
-void AMPlayerController::ChooseRoleReq_Implementation(const FString& InID, const FString& InName)
-{
 	
-}
-
-void AMPlayerController::ChooseRoleAck_Implementation(const bool bOk)
-{
-	if (const FOnRpcResult* Callback = RpcManager.Find(TEXT("ChangeRole")))
-	{
-		Callback->ExecuteIfBound(ERpcErrorCode::Ok);
-	}
+	OnFinishedLogin.Broadcast(Code);
 }

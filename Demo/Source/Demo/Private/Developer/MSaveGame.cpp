@@ -1,28 +1,17 @@
 #include "MSaveGame.h"
 
 
-bool UMSaveGame::CreateUser(const FString& InID, const FString& InName)
+int32 UMSaveGame::CreateUser(const FString& InID, const FString& InName)
 {
 	if (INDEX_NONE != FindUserIndex(InID))
-		return false;
+		return INDEX_NONE;
 
 	FMUserData Data;
 	Data.UserID = InID;
 	Data.UserName = InName;
 	Data.CreateDate = FDateTime::Now().GetTicks();
 
-	UserData.Add(Data);
-
-	return true;
-}
-
-bool UMSaveGame::CreateUser(const FMUserData& InData)
-{
-	if (INDEX_NONE != FindUserIndex(InData.UserID))
-		return false;
-
-	UserData.Add(InData);
-	return true;
+	return UserData.Add(Data);
 }
 
 void UMSaveGame::RemoveUser(const FString& InID)
@@ -32,16 +21,15 @@ void UMSaveGame::RemoveUser(const FString& InID)
 		UserData.RemoveAt(Index);
 }
 
-FMUserData UMSaveGame::FindUserData(const FString& InID)
+bool UMSaveGame::FindUserData(const FString& InID, FMUserData& Result)
 {
-	const int32 Index = FindUserIndex(InID);
-	if (INDEX_NONE == Index)
-		return FMUserData();
+	if (const FMUserData* Data = GetUserDataRef(InID))
+		Result = *Data;
 
-	return UserData[Index];
+	return false;
 }
 
-FMUserData* UMSaveGame::FindUserDataRef(const FString& InID)
+FMUserData* UMSaveGame::GetUserDataRef(const FString& InID)
 {
 	const int32 Index = FindUserIndex(InID);
 	if (INDEX_NONE == Index)
@@ -50,17 +38,37 @@ FMUserData* UMSaveGame::FindUserDataRef(const FString& InID)
 	return &UserData[Index];
 }
 
-FRoleData UMSaveGame::GetRoleData(const FString& InID, const FString& InName)
+bool UMSaveGame::FindRoleData(const FString& InID, const FString& InName, FRoleData& Result)
+{
+	if (const FRoleData* Data = GetRoleDataRef(InID, InName))
+	{
+		Result = *Data;
+		return true;
+	}
+	
+	return false;
+}
+
+FRoleData* UMSaveGame::GetRoleDataRef(const FString& InID, const FString& InName)
 {
 	const int32 Index = FindUserIndex(InID);
 	if (INDEX_NONE == Index)
-		return FRoleData();
+		return nullptr;
 
 	const int32 Index1 = FindRoleIndex(Index, InName);
 	if (INDEX_NONE == Index1)
-		return FRoleData();
+		return nullptr;
 
-	return UserData[Index].RoleData[Index1];
+	return &UserData[Index].RoleData[Index1];
+}
+
+int32 UMSaveGame::GetRoleNum(const FString& InID)
+{
+	const FMUserData* Data =  GetUserDataRef(InID);
+	if (!Data)
+		return 0;
+
+	return Data->RoleData.Num();
 }
 
 bool UMSaveGame::UpdateRoleName(const FString& InID, const FString& OldName, const FString& NewName)
@@ -79,18 +87,26 @@ bool UMSaveGame::UpdateRoleName(const FString& InID, const FString& OldName, con
 
 bool UMSaveGame::CreateRole(const FString& InID, const FCreateRoleParams& InParams)
 {
-	const int32 Index = FindUserIndex(InID);
+	int32 Index = FindUserIndex(InID);
 	if (INDEX_NONE == Index)
-		return false;
-
+	{
+		Index = CreateUser(InID, TEXT(""));
+		if (Index == INDEX_NONE)
+			return false;
+	}
+	
 	const int32 Index1 = FindRoleIndex(Index, InParams.RoleName);
 	if (INDEX_NONE != Index1)
 		return false;
 
 	FRoleData NewRole;
 	NewRole.RoleName = InParams.RoleName;
+	NewRole.Camp = InParams.Camp;
+	NewRole.Race = InParams.Race;
+	NewRole.RaceBranch = InParams.RaceBranch;
+	NewRole.Gender = InParams.Gender;
+	NewRole.Birth = InParams.Birth;
 	NewRole.Class = InParams.Class;
-	NewRole.Camp = ECamp::None;
 	NewRole.Level = 1;
 	NewRole.CreateDate = FDateTime::Now().GetTicks();
 
@@ -123,6 +139,12 @@ void UMSaveGame::RemoveRole(const FString& InID, const FString& InName)
 		return;
 
 	UserData[Index].RoleData.RemoveAt(Index1);
+}
+
+void UMSaveGame::PostLoad()
+{
+	Super::PostLoad();
+	
 }
 
 int32 UMSaveGame::FindUserIndex(const FString& InID)

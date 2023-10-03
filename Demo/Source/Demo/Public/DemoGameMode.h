@@ -6,6 +6,7 @@
 #include "GameFramework/GameModeBase.h"
 #include "DemoGameMode.generated.h"
 
+class APlayerStart;
 class AMPlayerState;
 
 UCLASS(minimalapi)
@@ -25,4 +26,7 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "ProjecetM")
 	TArray<AMPlayerState*> GetAllPlayerStates() const;
+
+protected:
+	
 };

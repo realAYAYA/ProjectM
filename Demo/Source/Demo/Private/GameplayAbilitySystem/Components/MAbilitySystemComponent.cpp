@@ -5,23 +5,32 @@
 
 void UMAbilitySystemComponent::Move()
 {
-	TryActivateAbilitiesByTag(MoveEventTag, true);
+	FGameplayTagContainer Container;
+	Container.AddTag(FGameplayTag::RequestGameplayTag(FName("GAS.Ability.Movement.Move")));
+	
+	TryActivateAbilitiesByTag(Container, true);
 }
 
 void UMAbilitySystemComponent::MoveEnd()
 {
-	MovementInputX = 0;
-	MovementInputY = 0;
+	FGameplayTagContainer Container;
+	Container.AddTag(FGameplayTag::RequestGameplayTag(FName("GAS.Ability.Movement.Move")));
 	
-	CancelAbilities(&MoveEventTag);
+	CancelAbilities(&Container);
 }
 
 void UMAbilitySystemComponent::Jump()
 {
-	TryActivateAbilitiesByTag(JumpEventTag, true);
+	FGameplayTagContainer Container;
+	Container.AddTag(FGameplayTag::RequestGameplayTag(FName("GAS.Ability.Movement.Jump")));
+	
+	TryActivateAbilitiesByTag(Container, true);
 }
 
 void UMAbilitySystemComponent::JumpEnd()
 {
-	CancelAbilities(&JumpEventTag);
+	FGameplayTagContainer Container;
+	Container.AddTag(FGameplayTag::RequestGameplayTag(FName("GAS.Ability.Movement.Jump")));
+	
+	CancelAbilities(&Container);
 }
