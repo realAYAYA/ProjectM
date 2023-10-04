@@ -21,7 +21,6 @@ UENUM(BlueprintType)
 enum class EActivateFailCode : uint8
 {
 	Success			UMETA(Displayname = "成功"),
-	Immunity		UMETA(Displayname = "免疫"),
 	Cooldown		UMETA(Displayname = "冷却中"),
 	OutOfRange		UMETA(Displayname = "超出距离"),
 	ToClose			UMETA(Displayname = "太近了"),

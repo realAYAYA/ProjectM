@@ -20,6 +20,8 @@ UGA_CastSpell::UGA_CastSpell()
 	TargetType = ETargetType::Hostile;
 
 	Range = 1500;
+
+	SpellTask = nullptr;
 }
 
 EActivateFailCode UGA_CastSpell::CanActivateCondition(const FGameplayAbilityActorInfo& ActorInfo) const
@@ -41,8 +43,11 @@ EActivateFailCode UGA_CastSpell::CanActivateCondition(const FGameplayAbilityActo
 	}
 
 	FailCode = EActivateFailCode::Success;
+
+	// Todo CD中
 	
-	// 目标类型不对
+	// Todo 目标阵营不符合攻击条件
+	// Todo 目标免疫
 	
 	// 太远了
 	if ((Target->GetActorLocation() - Caster->GetActorLocation()).Length() > Range)
@@ -71,6 +76,8 @@ EActivateFailCode UGA_CastSpell::CanActivateCondition(const FGameplayAbilityActo
 			return FailCode;
 		}
 	}
+
+	// Todo 射线检测有障碍物，或路径不可以达到
 
 	Caster->OnAbilityFailed.Broadcast(FailCode);
 	

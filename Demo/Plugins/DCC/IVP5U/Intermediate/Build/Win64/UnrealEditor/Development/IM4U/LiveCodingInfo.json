@@ -1,0 +1,39 @@
+{
+	"RemapUnityFiles": 
+	{
+		"Module.IM4U.cpp.obj": [
+			"IM4U.init.gen.cpp.obj",
+			"MMD2UE4NameTableRow.gen.cpp.obj",
+			"MMDExtendAsset.gen.cpp.obj",
+			"MMDExtendFactory.gen.cpp.obj",
+			"MMDMeshImportData.gen.cpp.obj",
+			"MMDSkeletalMeshImportData.gen.cpp.obj",
+			"MMDStaticMeshImportData.gen.cpp.obj",
+			"PmxFactory.gen.cpp.obj",
+			"PmxImportUI.gen.cpp.obj",
+			"VmdFactory.gen.cpp.obj",
+			"VmdImportUI.gen.cpp.obj",
+			"VmdCameraAnimFactory.cpp.obj",
+			"VmdFactory.cpp.obj",
+			"VmdImportOption.cpp.obj",
+			"IM4U.cpp.obj",
+			"MMDExtendAsset.cpp.obj",
+			"MMDExtendFactory.cpp.obj",
+			"MMDImportHelper.cpp.obj",
+			"MMDMeshImportData.cpp.obj",
+			"MMDSkeletalMeshImportData.cpp.obj",
+			"MMDStaticMeshImportData.cpp.obj",
+			"PmdImporter.cpp.obj",
+			"PmxFactory.cpp.obj",
+			"PmxImporter.cpp.obj",
+			"PmxMainImport.cpp.obj",
+			"PmxMaterialImport.cpp.obj",
+			"PmxOptionWindow.cpp.obj",
+			"PmxSkeltalMeshImport.cpp.obj",
+			"SjisToUnicode.cpp.obj",
+			"VmdImporter.cpp.obj",
+			"VmdMainImport.cpp.obj",
+			"VmdOptionWindow.cpp.obj"
+		]
+	}
+}
