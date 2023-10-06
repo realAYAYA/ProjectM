@@ -1,0 +1,32 @@
+{
+    "Version": "1.2",
+    "Data": {
+        "Source": "d:\\codes\\projectm\\demo\\plugins\\dcc\\vrm4u\\intermediate\\build\\win64\\unrealeditor\\inc\\vrm4u\\uht\\vrmbpfunctionlibrary.gen.cpp",
+        "ProvidedModule": "",
+        "PCH": "e:\\codes\\unrealengine53\\unrealengine\\engine\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\unrealed\\sharedpch.unrealed.cpp17.inclorderunreal5_1.h.pch",
+        "Includes": [
+            "d:\\codes\\projectm\\demo\\plugins\\dcc\\vrm4u\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\vrm4u\\definitions.vrm4u.h",
+            "d:\\codes\\projectm\\demo\\plugins\\dcc\\vrm4u\\source\\vrm4u\\public\\vrmbpfunctionlibrary.h",
+            "e:\\codes\\unrealengine53\\unrealengine\\engine\\source\\runtime\\engine\\classes\\engine\\texturerendertarget2d.h",
+            "e:\\codes\\unrealengine53\\unrealengine\\engine\\source\\runtime\\engine\\classes\\engine\\texturerendertarget.h",
+            "e:\\codes\\unrealengine53\\unrealengine\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\engine\\uht\\texturerendertarget.generated.h",
+            "e:\\codes\\unrealengine53\\unrealengine\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\engine\\uht\\texturerendertarget2d.generated.h",
+            "e:\\codes\\unrealengine53\\unrealengine\\engine\\source\\runtime\\core\\public\\misc\\engineversioncomparison.h",
+            "e:\\codes\\unrealengine53\\unrealengine\\engine\\source\\runtime\\livelinkinterface\\public\\livelinktypes.h",
+            "e:\\codes\\unrealengine53\\unrealengine\\engine\\source\\runtime\\livelinkinterface\\public\\livelinkrefskeleton.h",
+            "e:\\codes\\unrealengine53\\unrealengine\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\livelinkinterface\\uht\\livelinkrefskeleton.generated.h",
+            "e:\\codes\\unrealengine53\\unrealengine\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\livelinkinterface\\uht\\livelinktypes.generated.h",
+            "d:\\codes\\projectm\\demo\\plugins\\dcc\\vrm4u\\source\\vrm4u\\public\\vrmutil.h",
+            "d:\\codes\\projectm\\demo\\plugins\\dcc\\vrm4u\\intermediate\\build\\win64\\unrealeditor\\inc\\vrm4u\\uht\\vrmutil.generated.h",
+            "e:\\codes\\unrealengine53\\unrealengine\\engine\\source\\runtime\\cinematiccamera\\public\\cinecameracomponent.h",
+            "e:\\codes\\unrealengine53\\unrealengine\\engine\\source\\runtime\\engine\\classes\\camera\\cameracomponent.h",
+            "e:\\codes\\unrealengine53\\unrealengine\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\engine\\uht\\cameracomponent.generated.h",
+            "e:\\codes\\unrealengine53\\unrealengine\\engine\\source\\runtime\\cinematiccamera\\public\\cinecamerasettings.h",
+            "e:\\codes\\unrealengine53\\unrealengine\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\cinematiccamera\\uht\\cinecamerasettings.generated.h",
+            "e:\\codes\\unrealengine53\\unrealengine\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\cinematiccamera\\uht\\cinecameracomponent.generated.h",
+            "d:\\codes\\projectm\\demo\\plugins\\dcc\\vrm4u\\intermediate\\build\\win64\\unrealeditor\\inc\\vrm4u\\uht\\vrmbpfunctionlibrary.generated.h"
+        ],
+        "ImportedModules": [],
+        "ImportedHeaderUnits": []
+    }
+}

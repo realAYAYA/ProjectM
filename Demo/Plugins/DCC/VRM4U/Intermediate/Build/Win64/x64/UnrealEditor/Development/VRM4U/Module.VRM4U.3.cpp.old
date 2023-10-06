@@ -4,7 +4,6 @@
 #include "D:/Codes/ProjectM/Demo/Plugins/DCC/VRM4U/Source/VRM4U/Private/AnimNode_VrmQuestHandBone.cpp"
 #include "D:/Codes/ProjectM/Demo/Plugins/DCC/VRM4U/Source/VRM4U/Private/AnimNode_VrmRetargetFromMannequin.cpp"
 #include "D:/Codes/ProjectM/Demo/Plugins/DCC/VRM4U/Source/VRM4U/Private/AnimNode_VrmSpringBone.cpp"
-#include "D:/Codes/ProjectM/Demo/Plugins/DCC/VRM4U/Source/VRM4U/Private/VRM4U.cpp"
 #include "D:/Codes/ProjectM/Demo/Plugins/DCC/VRM4U/Source/VRM4U/Private/VRM4U_AnimSubsystem.cpp"
 #include "D:/Codes/ProjectM/Demo/Plugins/DCC/VRM4U/Source/VRM4U/Private/VrmAnimInstance.cpp"
 #include "D:/Codes/ProjectM/Demo/Plugins/DCC/VRM4U/Source/VRM4U/Private/VrmAnimInstanceCopy.cpp"

@@ -1092,7 +1092,7 @@ void EmptyLinkFunctionForGeneratedCodeVrmBPFunctionLibrary() {}
 		static const UECodeGen_Private::FFunctionParams FuncParams;
 	};
 	const UECodeGen_Private::FObjectPropertyParams Z_Construct_UFunction_UVrmBPFunctionLibrary_VRMChangeMaterialShadingModel_Statics::NewProp_material = { "material", nullptr, (EPropertyFlags)0x0010000000000080, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(VrmBPFunctionLibrary_eventVRMChangeMaterialShadingModel_Parms, material), Z_Construct_UClass_UMaterialInstanceConstant_NoRegister, METADATA_PARAMS(0, nullptr) };
-	const UECodeGen_Private::FBytePropertyParams Z_Construct_UFunction_UVrmBPFunctionLibrary_VRMChangeMaterialShadingModel_Statics::NewProp_ShadingModel = { "ShadingModel", nullptr, (EPropertyFlags)0x0010000000000080, UECodeGen_Private::EPropertyGenFlags::Byte, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(VrmBPFunctionLibrary_eventVRMChangeMaterialShadingModel_Parms, ShadingModel), Z_Construct_UEnum_Engine_EMaterialShadingModel, METADATA_PARAMS(0, nullptr) }; // 3101967338
+	const UECodeGen_Private::FBytePropertyParams Z_Construct_UFunction_UVrmBPFunctionLibrary_VRMChangeMaterialShadingModel_Statics::NewProp_ShadingModel = { "ShadingModel", nullptr, (EPropertyFlags)0x0010000000000080, UECodeGen_Private::EPropertyGenFlags::Byte, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(VrmBPFunctionLibrary_eventVRMChangeMaterialShadingModel_Parms, ShadingModel), Z_Construct_UEnum_Engine_EMaterialShadingModel, METADATA_PARAMS(0, nullptr) }; // 1501831977
 	void Z_Construct_UFunction_UVrmBPFunctionLibrary_VRMChangeMaterialShadingModel_Statics::NewProp_bOverride_SetBit(void* Obj)
 	{
 		((VrmBPFunctionLibrary_eventVRMChangeMaterialShadingModel_Parms*)Obj)->bOverride = 1;
@@ -2098,7 +2098,7 @@ void EmptyLinkFunctionForGeneratedCodeVrmBPFunctionLibrary() {}
 #endif
 	const UECodeGen_Private::FObjectPropertyParams Z_Construct_UFunction_UVrmBPFunctionLibrary_VRMGetMaterialPropertyOverrides_Statics::NewProp_Material = { "Material", nullptr, (EPropertyFlags)0x0010000000000082, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(VrmBPFunctionLibrary_eventVRMGetMaterialPropertyOverrides_Parms, Material), Z_Construct_UClass_UMaterialInterface_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UFunction_UVrmBPFunctionLibrary_VRMGetMaterialPropertyOverrides_Statics::NewProp_Material_MetaData), Z_Construct_UFunction_UVrmBPFunctionLibrary_VRMGetMaterialPropertyOverrides_Statics::NewProp_Material_MetaData) };
 	const UECodeGen_Private::FBytePropertyParams Z_Construct_UFunction_UVrmBPFunctionLibrary_VRMGetMaterialPropertyOverrides_Statics::NewProp_BlendMode = { "BlendMode", nullptr, (EPropertyFlags)0x0010000000000180, UECodeGen_Private::EPropertyGenFlags::Byte, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(VrmBPFunctionLibrary_eventVRMGetMaterialPropertyOverrides_Parms, BlendMode), Z_Construct_UEnum_Engine_EBlendMode, METADATA_PARAMS(0, nullptr) }; // 1432507785
-	const UECodeGen_Private::FBytePropertyParams Z_Construct_UFunction_UVrmBPFunctionLibrary_VRMGetMaterialPropertyOverrides_Statics::NewProp_ShadingModel = { "ShadingModel", nullptr, (EPropertyFlags)0x0010000000000180, UECodeGen_Private::EPropertyGenFlags::Byte, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(VrmBPFunctionLibrary_eventVRMGetMaterialPropertyOverrides_Parms, ShadingModel), Z_Construct_UEnum_Engine_EMaterialShadingModel, METADATA_PARAMS(0, nullptr) }; // 3101967338
+	const UECodeGen_Private::FBytePropertyParams Z_Construct_UFunction_UVrmBPFunctionLibrary_VRMGetMaterialPropertyOverrides_Statics::NewProp_ShadingModel = { "ShadingModel", nullptr, (EPropertyFlags)0x0010000000000180, UECodeGen_Private::EPropertyGenFlags::Byte, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(VrmBPFunctionLibrary_eventVRMGetMaterialPropertyOverrides_Parms, ShadingModel), Z_Construct_UEnum_Engine_EMaterialShadingModel, METADATA_PARAMS(0, nullptr) }; // 1501831977
 	void Z_Construct_UFunction_UVrmBPFunctionLibrary_VRMGetMaterialPropertyOverrides_Statics::NewProp_IsTwoSided_SetBit(void* Obj)
 	{
 		((VrmBPFunctionLibrary_eventVRMGetMaterialPropertyOverrides_Parms*)Obj)->IsTwoSided = 1;
@@ -3855,7 +3855,7 @@ void EmptyLinkFunctionForGeneratedCodeVrmBPFunctionLibrary() {}
 		{ &Z_Construct_UFunction_UVrmBPFunctionLibrary_VRMChangeMaterialBlendMode, "VRMChangeMaterialBlendMode" }, // 3965569602
 		{ &Z_Construct_UFunction_UVrmBPFunctionLibrary_VRMChangeMaterialParent, "VRMChangeMaterialParent" }, // 2657041871
 		{ &Z_Construct_UFunction_UVrmBPFunctionLibrary_VRMChangeMaterialScalarParameter, "VRMChangeMaterialScalarParameter" }, // 674198278
-		{ &Z_Construct_UFunction_UVrmBPFunctionLibrary_VRMChangeMaterialShadingModel, "VRMChangeMaterialShadingModel" }, // 1277354663
+		{ &Z_Construct_UFunction_UVrmBPFunctionLibrary_VRMChangeMaterialShadingModel, "VRMChangeMaterialShadingModel" }, // 1507728671
 		{ &Z_Construct_UFunction_UVrmBPFunctionLibrary_VRMChangeMaterialSkipEditChange, "VRMChangeMaterialSkipEditChange" }, // 153250307
 		{ &Z_Construct_UFunction_UVrmBPFunctionLibrary_VRMChangeMaterialStaticSwitch, "VRMChangeMaterialStaticSwitch" }, // 8903896
 		{ &Z_Construct_UFunction_UVrmBPFunctionLibrary_VRMChangeMaterialTexture, "VRMChangeMaterialTexture" }, // 2574093054
@@ -3874,7 +3874,7 @@ void EmptyLinkFunctionForGeneratedCodeVrmBPFunctionLibrary() {}
 		{ &Z_Construct_UFunction_UVrmBPFunctionLibrary_VRMGetHumanoidBoneNameList, "VRMGetHumanoidBoneNameList" }, // 2515067987
 		{ &Z_Construct_UFunction_UVrmBPFunctionLibrary_VRMGetHumanoidParentBone, "VRMGetHumanoidParentBone" }, // 4120760770
 		{ &Z_Construct_UFunction_UVrmBPFunctionLibrary_VRMGetIKRigDefinition, "VRMGetIKRigDefinition" }, // 2099322183
-		{ &Z_Construct_UFunction_UVrmBPFunctionLibrary_VRMGetMaterialPropertyOverrides, "VRMGetMaterialPropertyOverrides" }, // 2240687380
+		{ &Z_Construct_UFunction_UVrmBPFunctionLibrary_VRMGetMaterialPropertyOverrides, "VRMGetMaterialPropertyOverrides" }, // 723941146
 		{ &Z_Construct_UFunction_UVrmBPFunctionLibrary_VRMGetMobileMode, "VRMGetMobileMode" }, // 2661614163
 		{ &Z_Construct_UFunction_UVrmBPFunctionLibrary_VRMGetMorphTargetList, "VRMGetMorphTargetList" }, // 2169855352
 		{ &Z_Construct_UFunction_UVrmBPFunctionLibrary_VRMGetPlayMode, "VRMGetPlayMode" }, // 3108629311
@@ -3959,9 +3959,9 @@ void EmptyLinkFunctionForGeneratedCodeVrmBPFunctionLibrary() {}
 		{ EVRMWidgetMode_StaticEnum, TEXT("EVRMWidgetMode"), &Z_Registration_Info_UEnum_EVRMWidgetMode, CONSTRUCT_RELOAD_VERSION_INFO(FEnumReloadVersionInfo, 3792793299U) },
 	};
 	const FClassRegisterCompiledInInfo Z_CompiledInDeferFile_FID_Demo_Plugins_DCC_VRM4U_Source_VRM4U_Public_VrmBPFunctionLibrary_h_Statics::ClassInfo[] = {
-		{ Z_Construct_UClass_UVrmBPFunctionLibrary, UVrmBPFunctionLibrary::StaticClass, TEXT("UVrmBPFunctionLibrary"), &Z_Registration_Info_UClass_UVrmBPFunctionLibrary, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UVrmBPFunctionLibrary), 1502190903U) },
+		{ Z_Construct_UClass_UVrmBPFunctionLibrary, UVrmBPFunctionLibrary::StaticClass, TEXT("UVrmBPFunctionLibrary"), &Z_Registration_Info_UClass_UVrmBPFunctionLibrary, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UVrmBPFunctionLibrary), 2917132167U) },
 	};
-	static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_Demo_Plugins_DCC_VRM4U_Source_VRM4U_Public_VrmBPFunctionLibrary_h_1622157079(TEXT("/Script/VRM4U"),
+	static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_Demo_Plugins_DCC_VRM4U_Source_VRM4U_Public_VrmBPFunctionLibrary_h_1572584675(TEXT("/Script/VRM4U"),
 		Z_CompiledInDeferFile_FID_Demo_Plugins_DCC_VRM4U_Source_VRM4U_Public_VrmBPFunctionLibrary_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_Demo_Plugins_DCC_VRM4U_Source_VRM4U_Public_VrmBPFunctionLibrary_h_Statics::ClassInfo),
 		nullptr, 0,
 		Z_CompiledInDeferFile_FID_Demo_Plugins_DCC_VRM4U_Source_VRM4U_Public_VrmBPFunctionLibrary_h_Statics::EnumInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_Demo_Plugins_DCC_VRM4U_Source_VRM4U_Public_VrmBPFunctionLibrary_h_Statics::EnumInfo));

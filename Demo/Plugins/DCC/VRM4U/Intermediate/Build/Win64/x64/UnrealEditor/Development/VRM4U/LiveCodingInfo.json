@@ -11,11 +11,11 @@
 			"AnimNode_VrmQuestHandBone.gen.cpp.obj",
 			"AnimNode_VrmRetargetFromMannequin.gen.cpp.obj",
 			"AnimNode_VrmSpringBone.gen.cpp.obj",
-			"VRM4U.init.gen.cpp.obj",
 			"VRM4U_AnimSubsystem.gen.cpp.obj",
 			"VrmAnimInstance.gen.cpp.obj",
 			"VrmAnimInstanceCopy.gen.cpp.obj",
 			"VrmAssetListObject.gen.cpp.obj",
+			"VRM4U.init.gen.cpp.obj",
 			"VrmBPFunctionLibrary.gen.cpp.obj"
 		],
 		"Module.VRM4U.2.cpp.obj": [
@@ -47,6 +47,7 @@
 			"AnimNode_VrmQuestHandBone.cpp.obj",
 			"AnimNode_VrmRetargetFromMannequin.cpp.obj",
 			"AnimNode_VrmSpringBone.cpp.obj",
+			"VRM4U.cpp.obj",
 			"VRM4U_AnimSubsystem.cpp.obj",
 			"VrmAnimInstance.cpp.obj",
 			"VrmAnimInstanceCopy.cpp.obj",
@@ -69,8 +70,7 @@
 			"VrmPoseableMeshComponent.cpp.obj",
 			"VrmRuntimeSettings.cpp.obj",
 			"VrmUtil.cpp.obj",
-			"VrmUtilImage.cpp.obj",
-			"VRM4U.cpp.obj"
+			"VrmUtilImage.cpp.obj"
 		]
 	}
 }
