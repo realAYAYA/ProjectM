@@ -1,9 +1,0 @@
-{
-	"RemapUnityFiles": 
-	{
-		"Module.SmoothNormalTool.cpp.obj": [
-			"SmoothNormalCommand.cpp.obj",
-			"SmoothNormalTool.cpp.obj"
-		]
-	}
-}
