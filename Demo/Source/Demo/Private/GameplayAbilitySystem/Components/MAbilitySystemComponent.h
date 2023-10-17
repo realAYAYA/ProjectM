@@ -8,6 +8,10 @@
 #include "MAbilitySystemComponent.generated.h"
 
 class AMCharacter;
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnGEApplied, const FGameplayTag&, Tag, const float, TimeRemaining);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnGERemoved, const FGameplayTag&, Tag);
+
 /**
  * 
  */
@@ -18,6 +22,12 @@ class DEMO_API UMAbilitySystemComponent : public UAbilitySystemComponent
 
 public:
 
+	UPROPERTY(BlueprintAssignable, Category = "ProjectM")
+	FOnGEApplied OnBufferApplied;
+
+	UPROPERTY(BlueprintAssignable, Category = "ProjectM")
+	FOnGERemoved OnBufferRemoved;
+	
 	// 受到近战攻击时触发的效果
 	
 	// 受到近战攻击时给对方施加效果

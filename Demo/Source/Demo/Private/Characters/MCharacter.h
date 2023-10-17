@@ -154,6 +154,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "ProjectM")
 	const UMAttributeSet* GetAttributeSet() const;
 
+	UFUNCTION(BlueprintCallable, Category = "ProjectM")
+	const UMAbilitySystemComponent* GetASC() const { return AbilitySystemComponent; }
+
 	UPROPERTY(BlueprintAssignable, Category = "ProjectM")
 	FOnAbilityFailed OnAbilityFailed;
 
