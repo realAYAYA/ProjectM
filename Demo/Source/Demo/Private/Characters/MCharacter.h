@@ -31,15 +31,6 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnRoleCampChanged, ECamp, NewCamp);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnRoleRaceChanged, ERace, NewRace);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnCurrentChanged, AMCharacter*, Target);
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnHealthChanged, float, V);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnMaxHealthChanged, float, V);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnManaChanged, float, V);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnMaxManaChanged, float, V);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnRageChanged, float, V);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnMaxRageChanged, float, V);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnEnergyChanged, float, V);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnMaxEnergyChanged, float, V);
-
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAbilityFailed, EActivateFailCode, FailCode);
 
 UCLASS()
@@ -159,30 +150,6 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category = "ProjectM")
 	FOnAbilityFailed OnAbilityFailed;
-
-	UPROPERTY(BlueprintAssignable, Category = "ProjectM")
-	FOnHealthChanged OnHealthChanged;
-
-	UPROPERTY(BlueprintAssignable, Category = "ProjectM")
-	FOnMaxHealthChanged OnMaxHealthChanged;
-
-	UPROPERTY(BlueprintAssignable, Category = "ProjectM")
-	FOnManaChanged OnManaChanged;
-
-	UPROPERTY(BlueprintAssignable, Category = "ProjectM")
-	FOnMaxManaChanged OnMaxManaChanged;
-
-	UPROPERTY(BlueprintAssignable, Category = "ProjectM")
-	FOnRageChanged OnRageChanged;
-
-	UPROPERTY(BlueprintAssignable, Category = "ProjectM")
-	FOnMaxRageChanged OnMaxRageChanged;
-
-	UPROPERTY(BlueprintAssignable, Category = "ProjectM")
-	FOnEnergyChanged OnEnergyChanged;
-
-	UPROPERTY(BlueprintAssignable, Category = "ProjectM")
-	FOnMaxEnergyChanged OnMaxEnergyChanged;
 
 	// 初始化技能系统，职业|天赋|种族|出身|
 	UFUNCTION()

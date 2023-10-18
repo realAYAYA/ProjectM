@@ -3,6 +3,14 @@
 
 #include "GameplayAbilitySystem/Components/MAbilitySystemComponent.h"
 
+void UMAbilitySystemComponent::InitializeComponent()
+{
+	Super::InitializeComponent();
+
+	OnGameplayEffectAppliedDelegateToSelf.AddUObject(this, &UMAbilitySystemComponent::OnBufferApplied);
+	ActiveGameplayEffects.OnActiveGameplayEffectRemovedDelegate.AddUObject(this, &UMAbilitySystemComponent::OnBufferRemoved);
+}
+
 void UMAbilitySystemComponent::Move()
 {
 	FGameplayTagContainer Container;
@@ -33,4 +41,17 @@ void UMAbilitySystemComponent::JumpEnd()
 	Container.AddTag(FGameplayTag::RequestGameplayTag(FName("GAS.Ability.Movement.Jump")));
 	
 	CancelAbilities(&Container);
+}
+
+void UMAbilitySystemComponent::OnBufferApplied(
+	UAbilitySystemComponent* ASC,
+	const FGameplayEffectSpec& Spec,
+	FActiveGameplayEffectHandle Handle) const
+{
+	OnBufferAppliedCallback.Broadcast(Spec.Def->GetAssetTags().First(), Spec.Duration);
+}
+
+void UMAbilitySystemComponent::OnBufferRemoved(const FActiveGameplayEffect& Effect) const
+{
+	OnBufferRemovedCallback.Broadcast(Effect.Spec.Def->GetAssetTags().First());
 }

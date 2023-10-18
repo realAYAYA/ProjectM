@@ -9,8 +9,8 @@
 
 class AMCharacter;
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnGEApplied, const FGameplayTag&, Tag, const float, TimeRemaining);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnGERemoved, const FGameplayTag&, Tag);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnGEAppliedDelegate, const FGameplayTag&, Tag, const float, TimeRemaining);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnGERemovedDelegate, const FGameplayTag&, Tag);
 
 /**
  * 
@@ -22,11 +22,13 @@ class DEMO_API UMAbilitySystemComponent : public UAbilitySystemComponent
 
 public:
 
-	UPROPERTY(BlueprintAssignable, Category = "ProjectM")
-	FOnGEApplied OnBufferApplied;
+	virtual void InitializeComponent() override;
 
 	UPROPERTY(BlueprintAssignable, Category = "ProjectM")
-	FOnGERemoved OnBufferRemoved;
+	FOnGEAppliedDelegate OnBufferAppliedCallback;
+
+	UPROPERTY(BlueprintAssignable, Category = "ProjectM")
+	FOnGERemovedDelegate OnBufferRemovedCallback;
 	
 	// 受到近战攻击时触发的效果
 	
@@ -53,4 +55,10 @@ public:
 
 	void Jump();
 	void JumpEnd();
+
+protected:
+
+	void OnBufferApplied(UAbilitySystemComponent* ASC, const FGameplayEffectSpec& Spec, FActiveGameplayEffectHandle Handle) const;
+
+	void OnBufferRemoved(const FActiveGameplayEffect& Effect) const;
 };

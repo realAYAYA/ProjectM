@@ -18,8 +18,6 @@
 #include "Demo.h"
 #include "MGameInstance.h"
 #include "MCharacterDataAsset.h"
-#include "MPlayerController.h"
-#include "MPlayerState.h"
 #include "Kismet/KismetSystemLibrary.h"
 
 
@@ -54,7 +52,6 @@ AMCharacter::AMCharacter(const FObjectInitializer& ObjectInitializer)
 	AttributeSet = CreateDefaultSubobject<UMAttributeSet>(TEXT("AttributeSet"));
 	
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AttributeSet->GetMaxMoveSpeedAttribute()).AddUObject(this, &AMCharacter::OnMaxMovementSpeedChanged);
-
 	
 }
 

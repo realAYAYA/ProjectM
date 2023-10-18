@@ -60,15 +60,7 @@ void AMProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrim
 		AMCharacter* Character = Cast<AMCharacter>(OtherActor);
 		if (HasAuthority() && Character)
 		{
-			// 施加效果
-			for (const TSubclassOf<UGameplayEffect>& Effect : Effects)
-			{
-				FGameplayEffectContextHandle EffectContextHandle = Character->GetAbilitySystemComponent()->MakeEffectContext();
-				EffectContextHandle.AddSourceObject(Character);
-				Character->ApplyGameplayEffectToSelf(Effect, EffectContextHandle);
-			}
-
-			Destroy();
+			
 		}
 	}
 }
@@ -93,6 +85,19 @@ void AMProjectile::Tick(float DeltaTime)
 	if (Target)
 	{
 		TargetLocation = Target->GetActorLocation();
+
+		if (GetActorLocation().Equals(TargetLocation, 100.0f))
+		{
+			// 施加效果
+			for (const TSubclassOf<UGameplayEffect>& Effect : Effects)
+			{
+				FGameplayEffectContextHandle EffectContextHandle = Target->GetAbilitySystemComponent()->MakeEffectContext();
+				EffectContextHandle.AddSourceObject(Target);
+				Target->ApplyGameplayEffectToSelf(Effect, EffectContextHandle);
+			}
+
+			Destroy();
+		}
 	}
 	else
 	{
