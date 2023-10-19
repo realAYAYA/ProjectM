@@ -71,10 +71,11 @@ const UMAttributeSet* AMCharacter::GetAttributeSet() const
 void AMCharacter::SetRoleName(const FString& InName)
 {
 	RoleName = FName(*InName);
-	
-	if (UKismetSystemLibrary::IsServer(this))
+
+	// 如果本机是服务器，OnRep不会调用，需要手动触发
+	if (UKismetSystemLibrary::IsServer(this) && !UKismetSystemLibrary::IsDedicatedServer(this))
 	{
-		OnRoleNameChanged.Broadcast(RoleName);// 如果本机是服务器，OnRep不会调用，则手动触发
+		OnRoleNameChanged.Broadcast(RoleName);
 	}
 }
 
@@ -82,9 +83,10 @@ void AMCharacter::SetRoleCamp(const ECamp& InCamp)
 {
 	Camp = InCamp;
 
-	if (UKismetSystemLibrary::IsServer(this))
+	// 如果本机是服务器，OnRep不会调用，需要手动触发
+	if (UKismetSystemLibrary::IsServer(this) && !UKismetSystemLibrary::IsDedicatedServer(this))
 	{
-		OnRoleCampChanged.Broadcast(InCamp);// 如果本机是服务器，OnRep不会调用，则手动触发
+		OnRoleCampChanged.Broadcast(InCamp);
 	}
 }
 
@@ -332,6 +334,12 @@ void AMCharacter::OnMaxMovementSpeedChanged(const FOnAttributeChangeData& Data)
 void AMCharacter::SetCurrentTarget_Implementation(AMCharacter* NewTarget)
 {
 	CurrentTarget = NewTarget;
+
+	// 如果本机是服务器，OnRep不会调用，需要手动触发
+	if (UKismetSystemLibrary::IsServer(this) && !UKismetSystemLibrary::IsDedicatedServer(this))
+	{
+		OnCurrentChanged.Broadcast(CurrentTarget);
+	}
 }
 
 void AMCharacter::GetLifetimeReplicatedProps(TArray< FLifetimeProperty >& OutLifetimeProps) const
