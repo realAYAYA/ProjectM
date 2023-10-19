@@ -24,11 +24,12 @@ public:
 
 	virtual void InitializeComponent() override;
 
+	/** Whenever a duration based GE is added */
 	UPROPERTY(BlueprintAssignable, Category = "ProjectM")
-	FOnGEAppliedDelegate OnBufferAppliedCallback;
+	FOnGEAppliedDelegate OnGEAppliedCallback;
 
 	UPROPERTY(BlueprintAssignable, Category = "ProjectM")
-	FOnGERemovedDelegate OnBufferRemovedCallback;
+	FOnGERemovedDelegate OnGERemovedCallback;
 	
 	// 受到近战攻击时触发的效果
 	
@@ -58,7 +59,7 @@ public:
 
 protected:
 
-	void OnBufferApplied(UAbilitySystemComponent* ASC, const FGameplayEffectSpec& Spec, FActiveGameplayEffectHandle Handle) const;
+	void OnGEApplied(UAbilitySystemComponent* ASC, const FGameplayEffectSpec& Spec, FActiveGameplayEffectHandle Handle) const;
 
-	void OnBufferRemoved(const FActiveGameplayEffect& Effect) const;
+	void OnGERemoved(const FActiveGameplayEffect& Effect) const;
 };

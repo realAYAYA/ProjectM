@@ -7,8 +7,8 @@ void UMAbilitySystemComponent::InitializeComponent()
 {
 	Super::InitializeComponent();
 
-	OnGameplayEffectAppliedDelegateToSelf.AddUObject(this, &UMAbilitySystemComponent::OnBufferApplied);
-	ActiveGameplayEffects.OnActiveGameplayEffectRemovedDelegate.AddUObject(this, &UMAbilitySystemComponent::OnBufferRemoved);
+	OnActiveGameplayEffectAddedDelegateToSelf.AddUObject(this, &UMAbilitySystemComponent::OnGEApplied);
+	ActiveGameplayEffects.OnActiveGameplayEffectRemovedDelegate.AddUObject(this, &UMAbilitySystemComponent::OnGERemoved);
 }
 
 void UMAbilitySystemComponent::Move()
@@ -43,15 +43,15 @@ void UMAbilitySystemComponent::JumpEnd()
 	CancelAbilities(&Container);
 }
 
-void UMAbilitySystemComponent::OnBufferApplied(
+void UMAbilitySystemComponent::OnGEApplied(
 	UAbilitySystemComponent* ASC,
 	const FGameplayEffectSpec& Spec,
 	FActiveGameplayEffectHandle Handle) const
 {
-	OnBufferAppliedCallback.Broadcast(Spec.Def->GetAssetTags().First(), Spec.Duration);
+	OnGEAppliedCallback.Broadcast(Spec.Def->GetAssetTags().First(), Spec.Duration);
 }
 
-void UMAbilitySystemComponent::OnBufferRemoved(const FActiveGameplayEffect& Effect) const
+void UMAbilitySystemComponent::OnGERemoved(const FActiveGameplayEffect& Effect) const
 {
-	OnBufferRemovedCallback.Broadcast(Effect.Spec.Def->GetAssetTags().First());
+	OnGERemovedCallback.Broadcast(Effect.Spec.Def->GetAssetTags().First());
 }
