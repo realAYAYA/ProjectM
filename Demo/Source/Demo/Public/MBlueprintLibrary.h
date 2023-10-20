@@ -7,6 +7,7 @@
 #include "MBlueprintLibrary.generated.h"
 
 class AMPlayerState;
+class AMCharacter;
 
 /**
  * 
@@ -25,5 +26,9 @@ public:
 	/** Excel配置 */
 	UFUNCTION(BlueprintPure, Category = "ProjectM", meta = (WorldContext = "WorldContextObject"))
 	static class UMGameTables* GetMGameTables(const UObject* WorldContextObject);
+
+	/** 鉴定二者是否为友军 */
+	UFUNCTION(BlueprintPure, Category = "ProjectM")
+	static bool IsFriendly(const AMCharacter* A, const AMCharacter* B);
 	
 };

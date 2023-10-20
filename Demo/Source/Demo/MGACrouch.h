@@ -3,14 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameplayAbilitySystem/Abilities/MGameplayAbility.h"
+#include "Abilities/GameplayAbility.h"
 #include "MGACrouch.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class DEMO_API UMGACrouch : public UMGameplayAbility
+class DEMO_API UMGACrouch : public UGameplayAbility
 {
 	GENERATED_BODY()
 

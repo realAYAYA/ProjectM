@@ -21,3 +21,8 @@ UMGameTables* UMBlueprintLibrary::GetMGameTables(const UObject* WorldContextObje
 	return nullptr;
 }
 
+bool UMBlueprintLibrary::IsFriendly(const AMCharacter* A, const AMCharacter* B)
+{
+	return false;
+}
+

@@ -17,8 +17,6 @@ UGA_CastSpell::UGA_CastSpell()
 	NetExecutionPolicy = EGameplayAbilityNetExecutionPolicy::LocalPredicted;
 	InstancingPolicy = EGameplayAbilityInstancingPolicy::InstancedPerActor;
 
-	TargetType = ETargetType::Hostile;
-
 	Range = 1500;
 
 	SpellTask = nullptr;
@@ -35,50 +33,6 @@ EActivateFailCode UGA_CastSpell::CanActivateCondition(const FGameplayAbilityActo
 		return FailCode;
 	}
 	
-	const AMCharacter* Target = Caster->CurrentTarget;
-	if (!Target || !Target->GetAbilitySystemComponent())
-	{
-		Caster->OnAbilityFailed.Broadcast(EActivateFailCode::NoTarget);
-		return EActivateFailCode::NoTarget;
-	}
-
-	FailCode = EActivateFailCode::Success;
-
-	// Todo CD中
-	
-	// Todo 目标阵营不符合攻击条件
-	// Todo 目标免疫
-	
-	// 太远了
-	if ((Target->GetActorLocation() - Caster->GetActorLocation()).Length() > Range)
-	{
-		FailCode = EActivateFailCode::OutOfRange;
-		Caster->OnAbilityFailed.Broadcast(FailCode);
-		return FailCode;
-	}
-
-	// 消耗条件不足
-	if (Caster->GetAttributeSet()->Mana.GetCurrentValue() < Mana)
-	{
-		FailCode = EActivateFailCode::NoMana;
-		Caster->OnAbilityFailed.Broadcast(FailCode);
-		return FailCode;
-	}
-	
-	// 如果是目标敌对，需要面向对方，友方增益buff则不需要
-	if (TargetType == ETargetType::Hostile)
-	{
-		const FVector Dir = UKismetMathLibrary::Normal(Target->GetActorLocation() - Caster->GetActorLocation(), 0.0001);
-		if (UKismetMathLibrary::Dot_VectorVector(Dir, Caster->GetActorForwardVector()) < 0.7f)
-		{
-			FailCode = EActivateFailCode::NoToward;
-			Caster->OnAbilityFailed.Broadcast(FailCode);
-			return FailCode;
-		}
-	}
-
-	// Todo 射线检测有障碍物，或路径不可以达到
-
 	Caster->OnAbilityFailed.Broadcast(FailCode);
 	
 	return FailCode;
@@ -125,38 +79,6 @@ void UGA_CastSpell::EndAbility(
 
 	if (SpellTask)
 		SpellTask->EndTask();
-
-	// 根据目标类型选择目标
-	const AMCharacter* Caster = GetMCharacterFromActorInfo();
-	const AMCharacter* Target = nullptr;
-	switch (TargetType)
-	{
-	default:break;
-	case ETargetType::Self: Target = Caster;
-	case ETargetType::Friendly:
-		// Todo 如果目标是敌对的则选择自己
-		Target = Caster->CurrentTarget;
-	case ETargetType::Hostile:
-		Target = Caster->CurrentTarget;
-	}
-
-	UAbilitySystemComponent* TargetComponent = Target->GetAbilitySystemComponent();
-
-	// 对目标施加效果
-	for (const TSubclassOf<UMGameplayEffect>& Effect : EffectsToTarget)
-	{
-		if (!Effect.Get())
-			continue;
-		
-		const FGameplayEffectContextHandle EffectContext = TargetComponent->MakeEffectContext();
-		const FGameplayEffectSpecHandle SpecHandle = TargetComponent->MakeOutgoingSpec(Effect, Level, EffectContext);
-		if (SpecHandle.IsValid())
-		{
-			const FActiveGameplayEffectHandle ActiveGEHandle = TargetComponent->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data.Get());
-			if (!ActiveGEHandle.WasSuccessfullyApplied())
-				ABILITY_LOG(Log, TEXT("Ability %s faild to apply Effect to Target %s"), *GetName(), *GetNameSafe(Effect));
-		}
-	}
 	
 	Super::EndAbility(Handle, ActorInfo, ActivationInfo, bReplicateEndAbility, bWasCancelled);
 }

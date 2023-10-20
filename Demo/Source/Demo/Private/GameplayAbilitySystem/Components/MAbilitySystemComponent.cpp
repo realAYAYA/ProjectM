@@ -49,6 +49,7 @@ void UMAbilitySystemComponent::OnGEApplied(
 	FActiveGameplayEffectHandle Handle) const
 {
 	OnGEAppliedCallback.Broadcast(Spec.Def->GetAssetTags().First(), Spec.Duration);
+	//Spec.StackCount;
 }
 
 void UMAbilitySystemComponent::OnGERemoved(const FActiveGameplayEffect& Effect) const

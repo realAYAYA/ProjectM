@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameplayAbilitySystem/Abilities/MGameplayAbility.h"
+#include "GameplayAbilitySystem/Abilities/Base/MGameplayAbility.h"
 #include "GA_Melee.generated.h"
 
 /**
@@ -15,14 +15,6 @@ class UGA_Melee : public UMGameplayAbility
 	GENERATED_BODY()
 
 public:
-	
-	/** 技能等级*/
-	UPROPERTY(EditDefaultsOnly, Category = "ProjectM")
-	int32 Level = 1;
-
-	/** 对目标施加效果*/
-	UPROPERTY(EditDefaultsOnly, Category = "CastMelee")
-	TArray<TSubclassOf<UMGameplayEffect>> EffectsToTarget;
 
 	UGA_Melee();
 
