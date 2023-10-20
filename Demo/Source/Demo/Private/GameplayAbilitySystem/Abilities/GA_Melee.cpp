@@ -33,14 +33,3 @@ EActivateFailCode UGA_Melee::CanActivateCondition(const FGameplayAbilityActorInf
 
 	return FailCode;
 }
-
-void UGA_Melee::ActivateAbility(
-	const FGameplayAbilitySpecHandle Handle,
-	const FGameplayAbilityActorInfo* OwnerInfo,
-	const FGameplayAbilityActivationInfo ActivationInfo,
-	const FGameplayEventData* TriggerEventData)
-{
-	Super::ActivateAbility(Handle, OwnerInfo, ActivationInfo, TriggerEventData);
-	
-}
-

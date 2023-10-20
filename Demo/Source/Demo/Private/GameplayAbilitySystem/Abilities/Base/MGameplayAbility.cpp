@@ -237,7 +237,7 @@ EActivateFailCode UMGameplayAbility::CanActivateCondition(const FGameplayAbility
 	}
 	
 	// Out of range
-	const float Distance = (Caster->GetActorLocation() - Target->GetActorLocation()).Length();
+	const float Distance = (Caster->GetActorLocation() - CurrentTarget->GetActorLocation()).Length();
 	if (Distance > Range)
 	{
 		return EActivateFailCode::OutOfRange;
@@ -252,7 +252,7 @@ EActivateFailCode UMGameplayAbility::CanActivateCondition(const FGameplayAbility
 	// 如果是目标敌对，需要面向对方，友方增益buff则不需要
 	if (TargetType == ETargetType::HostileOnly)
 	{
-		const FVector Dir = UKismetMathLibrary::Normal(Target->GetActorLocation() - Caster->GetActorLocation(), 0.0001);
+		const FVector Dir = UKismetMathLibrary::Normal(CurrentTarget->GetActorLocation() - Caster->GetActorLocation(), 0.0001);
 		if (UKismetMathLibrary::Dot_VectorVector(Dir, Caster->GetActorForwardVector()) < 0.5f)
 		{
 			return EActivateFailCode::NoToward;
