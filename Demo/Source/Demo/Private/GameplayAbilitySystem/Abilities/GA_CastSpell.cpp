@@ -2,15 +2,10 @@
 
 
 #include "GameplayAbilitySystem/Abilities/GA_CastSpell.h"
+#include "Characters/MCharacter.h"
+#include "Tasks/AbilityTask_CastSpell.h"
 
 #include "AbilitySystemComponent.h"
-#include "AbilitySystemLog.h"
-
-#include "Characters/MCharacter.h"
-#include "GameplayAbilitySystem/AttributeSets/MAttributeSet.h"
-#include "GameplayAbilitySystem/GameplayEffects/MGameplayEffect.h"
-#include "Kismet/KismetMathLibrary.h"
-#include "Tasks/AbilityTask_CastSpell.h"
 
 UGA_CastSpell::UGA_CastSpell()
 {

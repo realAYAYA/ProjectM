@@ -2,15 +2,7 @@
 
 
 #include "GameplayAbilitySystem/Abilities/GA_Melee.h"
-
-#include "Kismet/KismetMathLibrary.h"
-#include "AbilitySystemComponent.h"
-#include "AbilitySystemLog.h"
-
 #include "Characters/MCharacter.h"
-#include "GameplayAbilitySystem/AttributeSets/MAttributeSet.h"
-#include "GameplayAbilitySystem/GameplayEffects/MGameplayEffect.h"
-
 
 UGA_Melee::UGA_Melee()
 {
