@@ -3,14 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameplayAbilitySystem/Abilities/Base/MGameplayAbility.h"
+#include "GameplayAbilitySystem/Abilities/Base/GA_DirectSkill.h"
 #include "GA_CastSpell.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class UGA_CastSpell : public UMGameplayAbility
+class UGA_CastSpell : public UGA_DirectSkill
 {
 	GENERATED_BODY()
 

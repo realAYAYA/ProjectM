@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "MGameplayAbility.h"
+#include "GA_DirectSkill.h"
 
 #include "AbilitySystemGlobals.h"
 #include "AbilitySystemLog.h"
@@ -13,7 +13,7 @@
 #include "GameplayAbilitySystem/GameplayEffects/MGameplayEffect.h"
 #include "Kismet/KismetMathLibrary.h"
 
-bool UMGameplayAbility::CanActivateAbility(
+bool UGA_DirectSkill::CanActivateAbility(
 	const FGameplayAbilitySpecHandle Handle,
 	const FGameplayAbilityActorInfo* ActorInfo,
 	const FGameplayTagContainer* SourceTags,
@@ -36,15 +36,16 @@ bool UMGameplayAbility::CanActivateAbility(
 	return Super::CanActivateAbility(Handle, ActorInfo, SourceTags, TargetTags, OptionalRelevantTags);
 }
 
-void UMGameplayAbility::ActivateAbility(
+void UGA_DirectSkill::ActivateAbility(
 	const FGameplayAbilitySpecHandle Handle,
 	const FGameplayAbilityActorInfo* OwnerInfo,
 	const FGameplayAbilityActivationInfo ActivationInfo,
 	const FGameplayEventData* TriggerEventData)
 {
+	Super::ActivateAbility(Handle, OwnerInfo, ActivationInfo, TriggerEventData);
+	
 	// Note: 确保在进入该函数之前，一切指针变量所指向的内存是安全的
 	
-	// 根据目标位置，计算冲锋的目的地
 	AMCharacter* Caster = Cast<AMCharacter>(OwnerInfo->AvatarActor);
 	
 	if (TargetType == ETargetType::SelfOnly)
@@ -60,46 +61,7 @@ void UMGameplayAbility::ActivateAbility(
 		Target = Cast<AMCharacter>(OwnerInfo->AvatarActor)->CurrentTarget;
 	}
 	
-	Super::ActivateAbility(Handle, OwnerInfo, ActivationInfo, TriggerEventData);
-	
 	UAbilitySystemComponent* ASC = OwnerInfo->AbilitySystemComponent.Get();
-
-	const FGameplayEffectContextHandle EffectContext = OwnerInfo->AbilitySystemComponent->MakeEffectContext();
-
-	// 处理技能开始时施加效果
-	for (TSubclassOf<UGameplayEffect>& GameplayEffect : OngoingEffectsToJustApplyOnStart)
-	{
-		if (!GameplayEffect.Get())
-			continue;
-		
-		const FGameplayEffectSpecHandle SpecHandle = ASC->MakeOutgoingSpec(GameplayEffect, 1, EffectContext);
-		if (!SpecHandle.IsValid())
-			continue;
-
-		FActiveGameplayEffectHandle ActiveGEHandle = ASC->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data.Get());
-		if (!ActiveGEHandle.WasSuccessfullyApplied())
-			ABILITY_LOG(Log, TEXT("Ability %s faild to apply Startup Effect %s"), *GetName(), *GetNameSafe(GameplayEffect));
-	}
-
-	if (!this->IsInstantiated())
-		return;
-
-	// 处理技能结束时施加效果
-	for (TSubclassOf<UGameplayEffect>& GameplayEffect : OngoingEffectsToRemoveOnEnd)
-	{
-		if (!GameplayEffect.Get())
-			continue;
-
-		FGameplayEffectSpecHandle SpecHandle = ASC->MakeOutgoingSpec(GameplayEffect, 1, EffectContext);
-		if (!SpecHandle.IsValid())
-			continue;
-		
-		FActiveGameplayEffectHandle ActiveGEHandle = ASC->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data.Get());
-		if (ActiveGEHandle.WasSuccessfullyApplied())
-			RemoveOnEndEffectHandles.Add(ActiveGEHandle);
-		else
-			ABILITY_LOG(Log, TEXT("Ability %s faild to apply startup effect %s"), *GetName(), *GetNameSafe(GameplayEffect));
-	}
 	
 	// 对目标施加效果
 	UAbilitySystemComponent* TargetComponent = Target->GetAbilitySystemComponent();
@@ -109,7 +71,7 @@ void UMGameplayAbility::ActivateAbility(
 			continue;
 
 		const FGameplayEffectContextHandle TargetEffectContext = ASC->MakeEffectContext();
-		const FGameplayEffectSpecHandle SpecHandle = ASC->MakeOutgoingSpec(Effect, 1, TargetEffectContext);
+		const FGameplayEffectSpecHandle SpecHandle = ASC->MakeOutgoingSpec(Effect, Level, TargetEffectContext);
 		if (SpecHandle.IsValid())
 		{
 			const FActiveGameplayEffectHandle ActiveGEHandle = ASC->ApplyGameplayEffectSpecToTarget(*SpecHandle.Data.Get(), TargetComponent);
@@ -119,25 +81,19 @@ void UMGameplayAbility::ActivateAbility(
 	}
 }
 
-void UMGameplayAbility::EndAbility(
+void UGA_DirectSkill::EndAbility(
 	const FGameplayAbilitySpecHandle Handle,
 	const FGameplayAbilityActorInfo* ActorInfo,
 	const FGameplayAbilityActivationInfo ActivationInfo,
 	bool bReplicateEndAbility,
 	bool bWasCancelled)
 {
-	UAbilitySystemComponent* ASC = ActorInfo->AbilitySystemComponent.Get();
+	Super::EndAbility(Handle, ActorInfo, ActivationInfo, bReplicateEndAbility, bWasCancelled);
 	
-	if (IsInstantiated())
-	{
-		for (FActiveGameplayEffectHandle& ActiveGEHandle : RemoveOnEndEffectHandles)
-		{
-			if (ActiveGEHandle.IsValid())
-				ASC->RemoveActiveGameplayEffect(ActiveGEHandle);
-		}
+	if (!IsInstantiated())
+		return;
 
-		RemoveOnEndEffectHandles.Empty();
-	}
+	UAbilitySystemComponent* ASC = ActorInfo->AbilitySystemComponent.Get();
 
 	// 对目标施加效果
 	UAbilitySystemComponent* TargetComponent = Target->GetAbilitySystemComponent();
@@ -147,51 +103,19 @@ void UMGameplayAbility::EndAbility(
 			continue;
 
 		const FGameplayEffectContextHandle TargetEffectContext = ASC->MakeEffectContext();
-		const FGameplayEffectSpecHandle SpecHandle = ASC->MakeOutgoingSpec(Effect, 1, TargetEffectContext);
+		const FGameplayEffectSpecHandle SpecHandle = ASC->MakeOutgoingSpec(Effect, Level, TargetEffectContext);
 		if (SpecHandle.IsValid())
 		{
-			
 			const FActiveGameplayEffectHandle ActiveGEHandle = ASC->ApplyGameplayEffectSpecToTarget(*SpecHandle.Data.Get(), TargetComponent);
 			if (!ActiveGEHandle.WasSuccessfullyApplied())
 				ABILITY_LOG(Log, TEXT("Ability %s faild to apply Effect to Target %s"), *GetName(), *GetNameSafe(Effect));
 		}
 	}
 	
-	Super::EndAbility(Handle, ActorInfo, ActivationInfo, bReplicateEndAbility, bWasCancelled);
-}
-
-bool UMGameplayAbility::CheckCooldown(const FGameplayAbilitySpecHandle Handle,
-	const FGameplayAbilityActorInfo* ActorInfo, FGameplayTagContainer* OptionalRelevantTags) const
-{
-	if (const FGameplayTagContainer* CooldownTags = GetCooldownTags())
-	{
-		if (CooldownTags->Num() > 0)
-		{
-			const UAbilitySystemComponent* const AbilitySystemComponent = ActorInfo->AbilitySystemComponent.Get();
-			check(AbilitySystemComponent != nullptr);
-			if (AbilitySystemComponent->HasAnyMatchingGameplayTags(*CooldownTags))
-			{
-				const FGameplayTag& CooldownTag = UAbilitySystemGlobals::Get().ActivateFailCooldownTag;
-
-				if (OptionalRelevantTags && CooldownTag.IsValid())
-				{
-					OptionalRelevantTags->AddTag(CooldownTag);
-				}
-				
-				if (const AMCharacter* Character = Cast<AMCharacter>(ActorInfo->AvatarActor.Get()))
-				{
-					Character->OnAbilityFailed.Broadcast(EActivateFailCode::Cooldown);
-				}
-				
-				return false;
-			}
-		}
-	}
 	
-	return true;
 }
 
-EActivateFailCode UMGameplayAbility::CanActivateCondition(const FGameplayAbilityActorInfo& ActorInfo) const
+EActivateFailCode UGA_DirectSkill::CanActivateCondition(const FGameplayAbilityActorInfo& ActorInfo) const
 {
 	const AMCharacter* Caster = Cast<AMCharacter>(ActorInfo.AvatarActor.Get());
 	const AMCharacter* CurrentTarget = Caster->CurrentTarget;
@@ -266,17 +190,4 @@ EActivateFailCode UMGameplayAbility::CanActivateCondition(const FGameplayAbility
 	// Todo 不在视野中
 	
 	return EActivateFailCode::Success;
-}
-
-AMCharacter* UMGameplayAbility::GetMCharacterFromActorInfo() const
-{
-	return Cast<AMCharacter>(GetAvatarActorFromActorInfo());
-}
-
-UMAbilitySystemComponent* UMGameplayAbility::GetMAbilitySystemComponent() const
-{
-	if (const AMCharacter* Character = Cast<AMCharacter>(GetAvatarActorFromActorInfo()))
-		return Cast<UMAbilitySystemComponent>(Character->GetAbilitySystemComponent());
-
-	return nullptr;
 }
