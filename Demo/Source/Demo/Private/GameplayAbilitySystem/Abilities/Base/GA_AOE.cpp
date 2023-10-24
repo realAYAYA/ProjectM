@@ -7,6 +7,8 @@
 
 #include "AbilitySystemGlobals.h"
 #include "AbilitySystemLog.h"
+#include "MBlueprintLibrary.h"
+#include "Kismet/KismetSystemLibrary.h"
 
 EActivateFailCode UGA_AOE::CanActivateCondition(const FGameplayAbilityActorInfo& ActorInfo) const
 {
@@ -65,12 +67,36 @@ void UGA_AOE::ActivateAbility(
 {
 	Super::ActivateAbility(Handle, OwnerInfo, ActivationInfo, TriggerEventData);
 	
-	if (EffectsToFriendOnEnd.Num() <= 0 && EffectsToHostileOnEnd.Num() <= 0)
+	if (EffectsToFriendOnStart.Num() <= 0 && EffectsToHostileOnStart.Num() <= 0)
 		return;
-	
-	// Todo 检测AOE目标, 检测敌友，施加效果
+
+	const AMCharacter* Caster = Cast<AMCharacter>(OwnerInfo->AvatarActor.Get());
+
+	TargetCenter = Caster->GetActorLocation();
+
 	TArray<AMCharacter*> Friends, Enemies;
-	
+	// Todo 检测AOE目标, 检测敌友，施加效果
+	const TArray<TEnumAsByte<EObjectTypeQuery> > ObjectTypes;// = { ECollisionChannel::ECC_Pawn };
+	const TArray<AActor*> ActorsToIgnore;
+	TArray<AActor*> OutActors;
+	UKismetSystemLibrary::SphereOverlapActors(Caster, TargetCenter, Radius, ObjectTypes, AMCharacter::StaticClass(), TArray<AActor*>(), OutActors);
+	UKismetSystemLibrary::DrawDebugSphere(Caster, TargetCenter, Radius, 20, FLinearColor::Blue, 2.5, 1);// Todo DebugDraw
+	for (AActor* Actor : OutActors)
+	{
+		AMCharacter* Character = Cast<AMCharacter>(Actor);
+		if (!Character)
+			continue;
+
+		if (UMBlueprintLibrary::IsFriendly(Caster, Character))
+		{
+			Friends.Add(Character);
+		}
+		else
+		{
+			Enemies.Add(Character);
+		}
+	}
+
 	UAbilitySystemComponent* ASC = OwnerInfo->AbilitySystemComponent.Get();
 
 	const FGameplayEffectContextHandle EffectContext = OwnerInfo->AbilitySystemComponent->MakeEffectContext();

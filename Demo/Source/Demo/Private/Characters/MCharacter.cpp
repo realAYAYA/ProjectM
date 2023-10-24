@@ -146,13 +146,14 @@ void AMCharacter::GiveAbilities()
 		AbilitySystemComponent->GiveAbility(GameplayAbilitySpec);
 	}
 
-	TArray<TSubclassOf<UGameplayAbility>>* Abilities = &CharacterData.WarriorAbilities;
+	TArray<TSubclassOf<UGameplayAbility>>* Abilities;
 	
 	switch (RoleClass)
 	{
 		default: return;
 	case ERoleClass::Warrior: Abilities = &CharacterData.WarriorAbilities;break;
 	case ERoleClass::Mage: Abilities = &CharacterData.MageAbilities;break;
+	case ERoleClass::Priest: Abilities = &CharacterData.PriestAbilities;break;
 	}
 	
 	for (const auto& AbilityClass : *Abilities)
@@ -245,8 +246,10 @@ void AMCharacter::Move(const FInputActionValue& Value)
 {
 	// 检测是否可以移动
 	FGameplayTagContainer Container;
-	Container.AddTag(FGameplayTag::RequestGameplayTag(FName("GAS.State.Limited.Root")));
-	Container.AddTag(FGameplayTag::RequestGameplayTag(FName("GAS.State.Limited.Stun")));
+	Container.AddTag(FGameplayTag::RequestGameplayTag(FName("GAS.GE.Limit.Root")));
+	Container.AddTag(FGameplayTag::RequestGameplayTag(FName("GAS.GE.Limit.Stun")));
+	//Container.AddTag(FGameplayTag::RequestGameplayTag(FName("GAS.GE.Limited.Fear")));
+	//Container.AddTag(FGameplayTag::RequestGameplayTag(FName("GAS.GE.Limited.Sleep")));
 
 	for (const FGameplayTag& Tag :Container)
 	{
@@ -277,9 +280,10 @@ void AMCharacter::MoveEnd(const FInputActionValue& Value)
 
 void AMCharacter::Look(const FInputActionValue& Value)
 {
-	// 检测是否可以移动
+	// 检测是否可以四周观察
 	FGameplayTagContainer Container;
-	Container.AddTag(FGameplayTag::RequestGameplayTag(FName("GAS.State.Limited.Stun")));
+	//Container.AddTag(FGameplayTag::RequestGameplayTag(FName("GAS.GE.Limited.Root")));
+	Container.AddTag(FGameplayTag::RequestGameplayTag(FName("GAS.GE.Limit.Stun")));
 
 	for (const FGameplayTag& Tag :Container)
 	{
@@ -302,8 +306,8 @@ void AMCharacter::TryJump(const FInputActionValue& Value)
 {
 	// 检测是否可以移动
 	FGameplayTagContainer Container;
-	Container.AddTag(FGameplayTag::RequestGameplayTag(FName("GAS.State.Limited.Root")));
-	Container.AddTag(FGameplayTag::RequestGameplayTag(FName("GAS.State.Limited.Stun")));
+	Container.AddTag(FGameplayTag::RequestGameplayTag(FName("GAS.GE.Limit.Root")));
+	Container.AddTag(FGameplayTag::RequestGameplayTag(FName("GAS.GE.Limit.Stun")));
 
 	for (const FGameplayTag& Tag :Container)
 	{

@@ -208,4 +208,7 @@ struct FCharacterData
 
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = GAS)
 	TArray<TSubclassOf<UGameplayAbility>> MageAbilities;
+
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = GAS)
+	TArray<TSubclassOf<UGameplayAbility>> PriestAbilities;
 };

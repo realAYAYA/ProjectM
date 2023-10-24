@@ -3,6 +3,7 @@
 #include "MBlueprintLibrary.h"
 
 #include "MGameInstance.h"
+#include "Characters/MCharacter.h"
 #include "MGameTables/MGameTables.h"
 
 UMGameInstance* UMBlueprintLibrary::GetMGameInstance(const UObject* WorldContextObject)
@@ -23,6 +24,9 @@ UMGameTables* UMBlueprintLibrary::GetMGameTables(const UObject* WorldContextObje
 
 bool UMBlueprintLibrary::IsFriendly(const AMCharacter* A, const AMCharacter* B)
 {
+	if (A->Camp == B->Camp)
+		return true;
+	
 	return false;
 }
 
